@@ -24,7 +24,7 @@
 <!--                &lt;!&ndash;<button data-method="notice" class="layui-btn">消息提醒<span class="layui-badge-dot"></span></button>&ndash;&gt;-->
 <!--            </li>-->
             <li class="layui-nav-item">
-                <a href="javascript:;" th:text="${studentid}">
+                <a href="javascript:;" th:text="${studentname}">
                     <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
                     贤心
                 </a>
@@ -33,7 +33,7 @@
                     <!--<dd><a href="">安全设置</a></dd>-->
                 <!--</dl>-->
             </li>
-            <li class="layui-nav-item"><a href="login.html">退了</a></li>
+            <li class="layui-nav-item"><a href="login.html">退出登录</a></li>
         </ul>
     </div>
 
@@ -54,9 +54,9 @@
                     <dl class="layui-nav-child">
                         <dd><a href="changepass" target="container">修改密码</a></dd>
                     </dl>
-                    <dl class="layui-nav-child">
-                        <dd><a href="student/infoEditing.html" target="container">信息编辑</a></dd>
-                    </dl>
+<!--                    <dl class="layui-nav-child">-->
+<!--                        <dd><a href="student/infoEditing.html" target="container">信息编辑</a></dd>-->
+<!--                    </dl>-->
                 </li>
 
 
@@ -90,19 +90,19 @@
                 </li>
 
 
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a href="javascript:;">
-                        <i class="iconfont icon-jiaoseguanli" ></i>
-                        <span>系统设置</span>
-                        <em class="layui-nav-more"></em>
-                    </a>
+<!--                <li class="layui-nav-item layui-nav-itemed">-->
+<!--                    <a href="javascript:;">-->
+<!--                        <i class="iconfont icon-jiaoseguanli" ></i>-->
+<!--                        <span>系统设置</span>-->
+<!--                        <em class="layui-nav-more"></em>-->
+<!--                    </a>-->
 
-                    <dl class="layui-nav-child">
-                        <dd><a href="student/sysDescription.html" target="container">系统说明</a></dd>
-                        <!--<dd><a href="remind" target="container">作业提醒设置</a></dd>-->
-                        <dd><a href="student/background.html" target="container">背景及推送设置</a></dd>
-                    </dl>
-                </li>
+<!--                    <dl class="layui-nav-child">-->
+<!--                        <dd><a href="student/sysDescription.html" target="container">系统说明</a></dd>-->
+<!--                        &lt;!&ndash;<dd><a href="remind" target="container">作业提醒设置</a></dd>&ndash;&gt;-->
+<!--                        <dd><a href="student/background.html" target="container">背景及推送设置</a></dd>-->
+<!--                    </dl>-->
+<!--                </li>-->
 
                 <!--"隐藏菜单栏"按钮没有反应!!修改-->
                 <!--<li class="layui-nav-item layui-slide-menu"><a href="javascript:;">隐藏菜单栏<i id="animation-left-nav1" class="layui-icon ">&#xe668;</i> </a></li>-->
@@ -133,10 +133,10 @@
     </div>
 
 
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        © layui.com - 底部固定区域
-    </div>
+<!--    <div class="layui-footer">-->
+<!--        &lt;!&ndash; 底部固定区域 &ndash;&gt;-->
+<!--        © layui.com - 底部固定区域-->
+<!--    </div>-->
 </div>
 </body>
 <script type="text/javascript" th:src="@{layui/layui.js}"></script>

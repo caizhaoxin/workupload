@@ -14,6 +14,8 @@ public interface studentclassMapper {
 
     boolean insertSelective(studentclass record);
 
+    studentclass existSelective(studentclass record);
+
     studentclass selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(studentclass record);

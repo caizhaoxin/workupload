@@ -75,7 +75,8 @@ public class studentService {
     }
 
     public List<Map<String, Object>> gettaskdetail(String studentid) {
-        return jobMapper.gettaskdetail(studentid);
+        List<Map<String, Object>> list = jobMapper.gettaskdetail(studentid);
+        return list;
     }
 }
 

@@ -11,6 +11,12 @@
   <sql id="Base_Column_List" >
     ID, no, classID, studentno, note
   </sql>
+  <select id="existSelective" resultMap="BaseResultMap" parameterType="com.submit.pojo.studentclass" >
+    select
+    <include refid="Base_Column_List" />
+    from studentclass
+    where classID = #{classid,jdbcType=INTEGER} and studentno = #{studentno,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

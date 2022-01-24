@@ -27,26 +27,18 @@
                     </div>
                 </div>
             </div>
-<!--            <div class="layui-form-item">-->
-<!--                <div class="layui-inline">-->
-<!--                    <label class="layui-form-label">添加方式：</label>-->
-<!--                    <div class="layui-input-block">-->
-<!--                        <select name="type"  id="type" lay-filter="type">-->
-<!--                            <option  value="oneinsert" >单个插入</option>-->
-<!--                            <option  value="moreinsert">批量插入</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
             <div class="layui-form-item">
                 <label class="layui-form-label">插入方式：</label>
                 <div class="layui-input-block">
-                    <input type="radio"  name="type" value="one" lay-filter="type" title="单个插入" checked="" >
+                    <input type="radio"  name="type" value="all" lay-filter="type" title="全部导入" checked="">
+                    <input type="radio"  name="type" value="one" lay-filter="type" title="单个导入">
                     <input type="radio"  name="type" value="more" lay-filter="type" title="批量导入">
-
                 </div>
             </div>
-            <div class="layui-form-item" id="oneadd"  >
+            <div class="layui-form-item" id="alladd"  >
+
+            </div>
+            <div class="layui-form-item" id="oneadd"  style="display: none">
                 <div class="layui-inline">
                     <label class="layui-form-label">学号</label>
                     <div class="layui-input-inline">
@@ -61,7 +53,7 @@
                 </div>
 
             </div>
-            <div class="layui-form-item" id="moreadd" style="display: none" >
+            <div class="layui-form-item" id="moreadd"  style="display: none">
                 <div class="layui-inline">
                     <label class="layui-form-label">起始学号</label>
                     <div class="layui-input-inline">
@@ -82,10 +74,15 @@
                 </div>
 
             </div>
+            <div class="layui-form-item" >
+                <div class="layui-input-block">
+                    <button id="submit" name="submit" class="layui-btn" lay-submit="" lay-filter="submit" style="display: none">添加</button>
+                    <button id="reset" name="reset" type="reset" class="layui-btn layui-btn-primary" style="display: none">重置</button>
+                </div>
+            </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="submit">添加</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button id="add_all_stu" name="add_all_stu" class="layui-btn" lay-submit="" lay-filter="submit">全部导入</button>
                 </div>
             </div>
 
@@ -137,7 +134,7 @@
                 ,cols: [[ //表头
                     {field: 'id', title: 'ID',  sort: true, fixed: 'left',width:120}
                     ,{field: 'name', title: '姓名'}
-                    ,{field:'pinyin',title:'pinyin'}
+                    ,{field:'pinyin',title:'拼音'}
                     ,{field: 'classid', title: '班级代号'}
                     ,{field: 'studentno', title: '学号',sort: true}
                     ,{field: 'no', title: '编号',edit:'text',sort:true}
@@ -190,9 +187,6 @@
                             error:function (msg) {
                                 layer.msg(msg)
                             }
-
-
-
                         })
                         layer.close(index);
                     });
@@ -201,7 +195,6 @@
                 }
             });
         });
-
     }
 
     function filllesson(json) {
@@ -228,20 +221,43 @@
             }
         });
     }
-
+    // <input type="radio"  name="type" value="all" lay-filter="type" title="全部导入" checked="">
+    //     <input type="radio"  name="type" value="one" lay-filter="type" title="单个导入">
+    //         <input type="radio"  name="type" value="more" lay-filter="type" title="批量导入">
     function reflash(data) {
-
-        if(data=='one')
+        console.log('data: ', data)
+        if(data=='all')
         {
+            console.log('data==all')
+            $("#alladd").css("display","");
+            $("#oneadd").css("display","none");
+            $("#moreadd").css("display","none");
+
+            $("#add_all_stu").show()
+            $("#submit").hide()
+            $("#reset").hide()
+        }
+        else if(data=='one')
+        {
+            $("#alladd").css("display","none");
             $("#oneadd").css("display","");
             $("#moreadd").css("display","none");
 
+            $("#add_all_stu").hide()
+            $("#submit").show()
+            $("#reset").show()
         }
         else
         {
+            $("#alladd").css("display","none");
             $("#oneadd").css("display","none");
             $("#moreadd").css("display","");
+
+            $("#add_all_stu").hide()
+            $("#submit").show()
+            $("#reset").show()
         }
+
     }
 
     getteachclass();
@@ -278,6 +294,7 @@
             });
             return false;
         });
+        // reflash('all');
         form.on('radio(type)',function (data) {
            reflash(data.value);
         });

@@ -2,7 +2,7 @@ package com.submit.service;
 
 import com.submit.dao.*;
 import com.submit.pojo.*;
-import com.sun.org.apache.regexp.internal.RE;
+//import com.sun.org.apache.regexp.internal.RE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +13,20 @@ import java.util.*;
 
 @Service
 public class teacherService {
-    private static final Logger logger= LoggerFactory.getLogger(teacherService.class);
+    private static final Logger logger = LoggerFactory.getLogger(teacherService.class);
     @Autowired(required = false)
     teacherMapper teacherMapper;
     @Autowired(required = false)
     teachclassMapper teachclassMapper;
     @Autowired(required = false)
-     studentMapper studentMapper;
+    studentMapper studentMapper;
     @Autowired(required = false)
-     studentclassMapper studentclassMapper;
+    studentclassMapper studentclassMapper;
     @Autowired(required = false)
     private jobMapper jobMapper;
     @Autowired(required = false)
     scoreMapper scoreMapper;
+
     public teacher getteacherbyid(String teacherid) {
         return teacherMapper.selectByPrimaryKey(teacherid);
     }
@@ -38,19 +39,18 @@ public class teacherService {
     public List<teachclass> getteachcassbyteacherid(String teacherid) {
         //判断时间，以前学期的pass掉
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
-        int year=c.get(Calendar.YEAR);
-        int month=c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
         // logger.info(year+" "+month);
-        List<teachclass> list=teachclassMapper.getteacherclassbyteachid(teacherid);
-        List<teachclass>list1=new ArrayList<>();
-        for(teachclass teachclass:list)
-        {
-            String date=(String) teachclass.getCoursesemester();
-            String dayear=date.substring(0,4);
-            String xueqi=date.substring(10,11);
-            if((Integer.parseInt(xueqi)==2&&month<8&&Integer.parseInt(dayear)==year-1)||(Integer.parseInt(xueqi)==2&&month>8&&Integer.parseInt(dayear)==year)){
+        List<teachclass> list = teachclassMapper.getteacherclassbyteachid(teacherid);
+        List<teachclass> list1 = new ArrayList<>();
+        for (teachclass teachclass : list) {
+            String date = (String) teachclass.getCoursesemester();
+            String dayear = date.substring(0, 4);
+            String xueqi = date.substring(10, 11);
+            if ((Integer.parseInt(xueqi) == 2 && month < 8 && Integer.parseInt(dayear) == year - 1) || (Integer.parseInt(xueqi) == 2 && month > 8 && Integer.parseInt(dayear) == year)) {
                 list1.add(teachclass);
-                logger.info(dayear+"   "+xueqi);
+                logger.info(dayear + "   " + xueqi);
             }
         }
         return list1;
@@ -70,7 +70,7 @@ public class teacherService {
     }
 
     public teachclass getteacherclassbyid(String id) {
-        return  teachclassMapper.selectByPrimaryKey(Integer.parseInt(id));
+        return teachclassMapper.selectByPrimaryKey(Integer.parseInt(id));
     }
 
     @Transactional
@@ -84,7 +84,7 @@ public class teacherService {
     }
 
     public void updatestuclano(int stuclaid, int num) {
-        studentclassMapper.updatestuno(stuclaid,num);
+        studentclassMapper.updatestuno(stuclaid, num);
     }
 
     public void addeachclass(teachclass teachclass) {
@@ -97,7 +97,7 @@ public class teacherService {
     }
 
     public job getjobbyid(String id) {
-        return  jobMapper.selectByPrimaryKey(Integer.parseInt(id));
+        return jobMapper.selectByPrimaryKey(Integer.parseInt(id));
     }
 
     public void updatejob(job job) {
@@ -110,30 +110,30 @@ public class teacherService {
 
     @Transactional
     public void deletestuclassbytwoid(int teachclassid, String studentno) {
-        studentclassMapper.deletebytwoid(teachclassid,studentno);
+        studentclassMapper.deletebytwoid(teachclassid, studentno);
     }
 
     public List<teachclass> getteacherclassthisterm(String teacherid) {
-        List<teachclass>list=teachclassMapper.getteacherclassbyteachid(teacherid);
+        List<teachclass> list = teachclassMapper.getteacherclassbyteachid(teacherid);
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
         int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH)+1;
+        int month = c.get(Calendar.MONTH) + 1;
         List<teachclass> list1 = new ArrayList<>();
-        for(teachclass te:list)
-        {
-            String date=te.getCoursesemester();
+        for (teachclass te : list) {
+            String date = te.getCoursesemester();
             String dayear = date.substring(0, 4);
             String xueqi = date.substring(10, 11);
-            logger.info(te.getCoursesemester()+" "+date+" "+dayear+" "+month+" "+xueqi+" "+year);
-            if ((Integer.parseInt(xueqi) == 2 && month < 8 && Integer.parseInt(dayear) == year - 1) ) {
-                list1.add(te);
-                logger.info(dayear + "  " + xueqi);
-            }
-            else if((Integer.parseInt(xueqi) == 1 && month >= 8 && Integer.parseInt(dayear) == year))
-            {
-                list1.add(te);
-                logger.info(dayear + " 555 " + xueqi);
-            }
+            logger.info(te.getCoursesemester() + " " + date + " " + dayear + " " + month + " " + xueqi + " " + year);
+            list1.add(te);
+//            if ((Integer.parseInt(xueqi) == 2 && month < 8 && Integer.parseInt(dayear) == year - 1) ) {
+//                list1.add(te);
+//                logger.info(dayear + "  " + xueqi);
+//            }
+//            else if((Integer.parseInt(xueqi) == 1 && month >= 8 && Integer.parseInt(dayear) == year))
+//            {
+//                list1.add(te);
+//                logger.info(dayear + " 555 " + xueqi);
+//            }
         }
         return list1;
 
@@ -149,10 +149,14 @@ public class teacherService {
     }
 
     public void updatescorebyscoreid(String scoreid, String score, String note) {
-        logger.info(scoreid+" "+score+" "+note);
-        score score1=scoreMapper.selectByPrimaryKey(Long.parseLong(scoreid));
-        if(score!=null&&!"".equals(score)){score1.setScore(Integer.parseInt(score));}
-        if(note!=null&&!"".equals(note)){score1.setNote(note);}
+        logger.info(scoreid + " " + score + " " + note);
+        score score1 = scoreMapper.selectByPrimaryKey(Long.parseLong(scoreid));
+        if (score != null && !"".equals(score)) {
+            score1.setScore(Integer.parseInt(score));
+        }
+        if (note != null && !"".equals(note)) {
+            score1.setNote(note);
+        }
         scoreMapper.updateByPrimaryKeySelective(score1);
     }
 
@@ -170,18 +174,20 @@ public class teacherService {
     }
 
     public boolean updatestudentclass(studentclass studentclass) {
-        return studentclassMapper.updateByPrimaryKeySelective(studentclass)>0;
+        return studentclassMapper.updateByPrimaryKeySelective(studentclass) > 0;
     }
 
     public boolean deletestuclassbyid(int studentclassid) {
-        return studentclassMapper.deleteByPrimaryKey(studentclassid)>0;
+        return studentclassMapper.deleteByPrimaryKey(studentclassid) > 0;
     }
 
     @Transactional
     public String lessonaddstudent(String lesson, String studentid, String studentno) {
-        studentclass studentclass=new studentclass();
-        student student=studentMapper.selectByPrimaryKey(studentid);
-        if(student==null){return "不存在该学生,请核实名单";}
+        studentclass studentclass = new studentclass();
+        student student = studentMapper.selectByPrimaryKey(studentid);
+        if (student == null) {
+            return "不存在该学生,请核实名单";
+        }
         studentclass.setStudentno(studentid);
         studentclass.setNo(Integer.parseInt(studentno));
         studentclass.setClassid(Integer.parseInt(lesson));
@@ -189,13 +195,47 @@ public class teacherService {
         return "插入成功";
     }
 
-    public String lessonaddstudentmore(String lesson, String startid, String endid, String startno) {
-        studentclass studentclass=new studentclass();
-        int succuss=0;int fail=0;int startnum=Integer.parseInt(startno);
-        long startstudentid=Long.parseLong(startid);
-        long endstudentid=Long.parseLong(endid);
+    public String lessonaddallstudent(String lesson) {
+        System.out.println("lesson: " + lesson);
+        List<student> allStuArr = studentMapper.getall();
+        Random r = new Random();
+        for (student stu : allStuArr) {
+            studentclass studentclass = new studentclass();
+            // 检测该课程是否存在的
+            studentclass.setStudentno(stu.getStudentno());
+            studentclass.setClassid(Integer.parseInt(lesson));
+            studentclass curInDBStu = studentclassMapper.existSelective(studentclass);
+            if (curInDBStu != null) {
+                // 已经存在，不用插入
+                logger.info(String.format("课程编号：%d, 学号：%s 的记录已存在", curInDBStu.getClassid(), curInDBStu.getStudentno()));
+                continue;
+            }
+            // 插入
+            studentclass = new studentclass();
+            studentclass.setStudentno(stu.getStudentno());
+            studentclass.setNo(r.nextInt(1000000000));
+            studentclass.setClassid(Integer.parseInt(lesson));
+            studentclassMapper.insertSelective(studentclass);
+        }
+        return "插入成功";
+    }
 
-        for(long id=startstudentid;id<=endstudentid;id++,startnum++) {
+    private boolean checkIsNum(String str) {
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c)) return false;
+        }
+        return true;
+    }
+
+    public String lessonaddstudentmore(String lesson, String startid, String endid, String startno) {
+        studentclass studentclass = new studentclass();
+        int succuss = 0;
+        int fail = 0;
+        int startnum = Integer.parseInt(startno);
+        long startstudentid = Long.parseLong(startid);
+        long endstudentid = Long.parseLong(endid);
+
+        for (long id = startstudentid; id <= endstudentid; id++, startnum++) {
             try {
                 student student = studentMapper.selectByPrimaryKey(String.valueOf(id));
                 if (student == null) {
@@ -218,7 +258,7 @@ public class teacherService {
                 startnum--;
             }
         }
-        return "插入成功数据"+succuss+"条,插入失败数据"+fail+"条,详情请看具体数据";
+        return "插入成功数据" + succuss + "条,插入失败数据" + fail + "条,详情请看具体数据";
 
     }
 
@@ -231,6 +271,6 @@ public class teacherService {
     }
 
     public void deleteteacherbyid(String teacherno) {
-     teacherMapper.deleteByPrimaryKey(teacherno);
+        teacherMapper.deleteByPrimaryKey(teacherno);
     }
 }

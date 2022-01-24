@@ -18,8 +18,9 @@ public interface studentMapper {
     int insertSelective(student record);
 
     student selectByPrimaryKey(String studentno);
+
     @Select("select * from student")
-    List<student>getall();
+    List<student> getall();
 
     int updateByPrimaryKeySelective(student record);
 
@@ -35,5 +36,5 @@ public interface studentMapper {
     List<Map> getstudentbyclassid(int classid);
 
     @Select("select * from student where studentno like CONCAT('%',#{studentid},'%') and name like CONCAT('%',#{name},'%')")
-    List<student> getallstudent(@Param("studentid")String studentid,@Param("name")String name);
+    List<student> getallstudent(@Param("studentid") String studentid, @Param("name") String name);
 }/**/

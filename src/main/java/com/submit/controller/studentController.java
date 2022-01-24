@@ -49,7 +49,7 @@ public class studentController {
             else
             {
                 studentMapper.updatepassword(username,newpassword);
-                model.addAttribute("msg","小老弟，密码已成功修改，别忘啦！");
+                model.addAttribute("msg","密码已成功修改，退出登陆后请用新密码登录");
                 model.addAttribute(student);
             }
 

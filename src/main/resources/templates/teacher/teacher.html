@@ -27,7 +27,7 @@
                     <!--<dd><a href="">安全设置</a></dd>-->
                 <!--</dl>-->
             </li>
-            <li class="layui-nav-item"><a href="loginteacher.html">退了</a></li>
+            <li class="layui-nav-item"><a href="loginteacher.html">退出登录</a></li>
         </ul>
     </div>
 
@@ -60,7 +60,7 @@
                         <dd><a href="teacher/showjob.html" target="container">作业查看</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="">异常联系</a></li>
+<!--                <li class="layui-nav-item"><a href="">异常联系</a></li>-->
             </ul>
         </div>
     </div>
@@ -87,10 +87,10 @@
     </div>
 
 
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        © layui.com - 底部固定区域
-    </div>
+<!--    <div class="layui-footer">-->
+<!--        &lt;!&ndash; 底部固定区域 &ndash;&gt;-->
+<!--        © layui.com - 底部固定区域-->
+<!--    </div>-->
 </div>
 <script th:src="@{layui/layui.js}"></script>
 <script th:src="@{layui/modules/jquery.js}"></script>
@@ -100,9 +100,6 @@
     layui.use('element', function(){
         var $ = layui.jquery
             ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
-
-
-
         //触发事件
         var active = {
             tabAdd: function(){
