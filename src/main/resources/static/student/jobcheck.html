@@ -12,6 +12,9 @@
     <blockquote class="layui-elem-quote layui-text">
         作业管理
     </blockquote>
+    <header class="larry-personal-tit">
+        ps：0分说明老师还未批阅哦，不用着急
+    </header><!-- /header -->
     <form name="myupload" id="getstudent" class="layui-form" action="addjob.html" method="get"
           style="margin-left: auto;margin-right: auto;text-align: center">
         <div class="layui-form-item">
@@ -24,11 +27,10 @@
                 </div>
             </div>
         </div>
-        <div class="layui-upload">
+        <!--        <div class="layui-upload">-->
 
-            <button class="layui-btn">创建作业</button>
-        </div>
-
+        <!--            <button class="layui-btn">创建作业</button>-->
+        <!--        </div>-->
     </form>
 
 
@@ -44,8 +46,7 @@
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <!--    <a class="layui-btn layui-btn-xs" lay-event="edit">上传/更改</a>-->
 </script>
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script type="text/javascript" src="../layui/jquery-2.2.1.min.js"></script>
@@ -72,20 +73,20 @@
             var table = layui.table;//高版本建议把括号去掉，有的低版本，需要加()
             table.render({
                 elem: '#demo'
-                , url: 'getjobbyteachclaid2' //数据接口
-                , where: {'teacherclaid': $("#lesson").val()}
+                , url: '../gettaskdetailbyclass' //数据接口
+                , where: {'classid': $("#lesson").val()}
                 , page: false //开启分页
                 , toolbar: '#toolbarDemo'
                 , cols: [[ //表头
-                    {field: 'id', title: 'ID', sort: true, fixed: 'left', width: 80, hide: 'true'}
-                    , {field: 'teachclassid', title: '班号', width: 80, hide: 'true'}
-                    , {field: 'no', title: '序号(实验no)', edit: 'text'}
-                    , {field: 'title', title: '实验名', edit: 'text'}
-                    , {field: 'duedate', title: '截至日期', sort: true, edit: 'text'}
-                    , {field: 'type', title: '类型(1,2)', sort: true, edit: 'text'}
-                    , {field: 'note', title: '备注', edit: 'text', edit: 'text'}
-                    , {field: 'createtime', title: '创建时间', sort: true}
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150}
+                    {field: 'coursename', title: '课程名', hide: 'true'},
+                    {field: 'title', title: '作业名'},
+                    {field: 'time', title: '发布时间'},
+                    {field: 'duedate', title: '截至时间'},
+                    {field: 'type', title: '类型(1,2)'},
+                    {field: 'note', title: '备注'},
+                    {field: 'score', title: '分数'},
+                    {field: 'status', title: '状态'},
+                    {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150}
                 ]]
             });
             //头工具栏事件
@@ -148,12 +149,11 @@
         });
 
     }
-
     function getteachclass() {
         // $("#lessonname").empty();
         var id = $("#lesson").val();
         $.ajax({
-            url: "getteacherclassthisterm",
+            url: "../getstudentclassthisterm",
             type: "GET",
             traditional: true,//这里设置为true
             success: function (data) {

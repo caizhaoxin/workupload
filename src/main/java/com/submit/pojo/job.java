@@ -19,11 +19,8 @@ public class job {
 
     private String note;
 
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createtime;
-
-
 
     public Integer getId() {
         return id;

@@ -1,6 +1,7 @@
 package com.submit.dao;
 
 import com.submit.pojo.studentclass;
+import com.submit.pojo.teachclass;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public interface studentclassMapper {
     int insert(studentclass record);
 
     boolean insertSelective(studentclass record);
+
+    List<teachclass> getstudentclassbystudentno(String studentno);
 
     studentclass existSelective(studentclass record);
 

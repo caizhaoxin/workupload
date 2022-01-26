@@ -104,4 +104,19 @@ public class teacherLessonController {
             return "删除失败";
         }
     }
+
+    @ResponseBody
+    @PostMapping("deleteteachfilebyfileid")
+    public String deleteteachfilebyfileid(Integer fileid)
+    {
+        try {
+            teacherService.deleteteachfilebyfileid(fileid);
+            return "删除成功";
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return "删除失败";
+        }
+    }
 }

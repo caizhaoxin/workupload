@@ -13,36 +13,37 @@
     <legend>学生管理</legend>
 </fieldset>
 <div class="larry-personal">
-    <div class="layui-form "  id="addstudent">
+    <div class="layui-form " id="addstudent">
 
 
-        <p  id="hint"  style="color: red" align="center"></p>
+        <p id="hint" style="color: red" align="center"></p>
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">学号</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="stuno" value="" name="studentno"   class="layui-input">
+                    <input type="text" id="stuno" value="" name="studentno" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">姓名</label>
                 <div class="layui-input-inline">
-                    <input id="stuname" type="text" name="name" value=""  autocomplete="off" class="layui-input">
+                    <input id="stuname" type="text" name="name" value="" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <div class="layui-input-inline">
-                    <button  class="layui-btn" onclick="showstudent()" >模糊搜索</button>
+                    <button class="layui-btn" onclick="showstudent()">模糊搜索</button>
                 </div>
             </div>
         </div>
-    </>
+    </
+    >
 
     <div class="larry-personal-body clearfix">
         <!--            UI填充造成视觉的效果！-->
     </div>
     <div class="larry-personal-body clearfix">
-        <table class="layui-hide"  id="demo" lay-filter="demo"></table>
+        <table class="layui-hide" id="demo" lay-filter="demo"></table>
     </div>
 
 </div>
@@ -60,84 +61,83 @@
 <script type="text/javascript" src="../layui/jquery-2.2.1.min.js"></script>
 <script>
     function showstudent() {
-        var studentno=$("#stuno").val();
-        var name=$("#stuname").val();
+        var studentno = $("#stuno").val();
+        var name = $("#stuname").val();
         console.log(studentno);
-        layui.use('table', function(){
+        layui.use('table', function () {
             var table = layui.table;//高版本建议把括号去掉，有的低版本，需要加()
             table.render({
                 elem: '#demo'
-                ,url: 'getallstudent' //数据接口
-                ,where:{'studentid':studentno,'name':name}
-                ,page: false //开启分页
-                ,toolbar: '#toolbarDemo'
-                ,title:'学生信息'
-                ,cols: [[ //表头
-                    {field: 'studentno', title: '学号',  sort: true}
-                    ,{field: 'name', title: '姓名',edit:'text'}
-                    ,{field:'pinyin',title:'pinyin',edit:'text'}
-                    ,{field: 'password', title: '密码',edit:'text'}
-                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
+                , url: 'getallstudent' //数据接口
+                , where: {'studentid': studentno, 'name': name}
+                , page: false //开启分页
+                , toolbar: '#toolbarDemo'
+                , title: '学生信息'
+                , cols: [[ //表头
+                    {field: 'studentno', title: '学号', sort: true}
+                    , {field: 'name', title: '姓名', edit: 'text'}
+                    , {field: 'pinyin', title: '拼音', edit: 'text'}
+                    , {field: 'password', title: '密码', edit: 'text'}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
                 ]]
             });
             //头工具栏事件
 
             //监听单元格编辑
-            table.on('edit(demo)', function(obj){
+            table.on('edit(demo)', function (obj) {
                 var value = obj.value //得到修改后的值
-                    ,data = obj.data //得到所在行所有键值
-                    ,fieldva = obj.field; //得到字段
-                $.ajax( {
-                    url:"updatestudent",
-                    data:{
-                        'studentid':data.studentno,
-                        'name':data.name,
-                        'pinyin':data.pinyin,
-                        'password':data.password
+                    , data = obj.data //得到所在行所有键值
+                    , fieldva = obj.field; //得到字段
+                $.ajax({
+                    url: "updatestudent",
+                    data: {
+                        'studentid': data.studentno,
+                        'name': data.name,
+                        'pinyin': data.pinyin,
+                        'password': data.password
                     },
 
-                    method:'POST',
-                    success:function (msg) {
+                    method: 'POST',
+                    success: function (msg) {
                         layer.msg(msg)
                     },
-                    error:function (msg) {
+                    error: function (msg) {
                         layer.msg(msg)
                     }
 
                 })
             });
-            table.on('tool(demo)', function(obj){
+            table.on('tool(demo)', function (obj) {
                 var data = obj.data;
-                if(obj.event === 'del'){
-                    layer.confirm('真的删除行么', function(index){
+                if (obj.event === 'del') {
+                    layer.confirm('真的删除行么', function (index) {
                         $.ajax({
-                            url:'deletestudent',
+                            url: 'deletestudent',
                             data: {
-                                'studentid':data.studentno
+                                'studentid': data.studentno
                             },
-                            method:'POST',
+                            method: 'POST',
                             traditional: true,
-                            success:function (msg) {
+                            success: function (msg) {
                                 layer.msg(msg);
                                 obj.del();
                             },
-                            error:function (msg) {
+                            error: function (msg) {
                                 layer.msg(msg)
                             }
-
 
 
                         })
                         layer.close(index);
                     });
-                } else if(obj.event === 'edit'){
+                } else if (obj.event === 'edit') {
                     layer.msg(JSON.stringify("您可直接编辑编号和备注"))
                 }
             });
         });
     }
-    showstudent();
 
+    showstudent();
 
 
 </script>

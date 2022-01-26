@@ -3,6 +3,7 @@ package com.submit.dao;
 import com.submit.pojo.job;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public interface jobMapper {
     int updateByPrimaryKeySelective(job record);
 
     int updateByPrimaryKey(job record);
+
     //插入job，具体的那次作业
     @Insert("insert into job (teachclassid,no,title,duedate,type,note,creteTime)" +
             "values(#{teachclassid},#{no},#{title},#{duedate},#{type},#{note},#{creteTime})")
@@ -38,4 +40,39 @@ public interface jobMapper {
             "AND c.ID=b.teachclassid " +
             "ORDER BY b.ID DESC")
     List<Map<String, Object>> gettaskdetail(String studentid);
+
+    //转义字符
+    @Select("select job.*,\n" +
+            "       (\n" +
+            "           CASE\n" +
+            "               WHEN score.score is null THEN\n" +
+            "                   0\n" +
+            "               ELSE\n" +
+            "                   score.score \n" +
+            "               END\n" +
+            "           ) AS score,\n" +
+            "       (\n" +
+            "           CASE\n" +
+            "               WHEN score.score is null THEN\n" +
+            "                   '未提交'\n" +
+            "               ELSE\n" +
+            "                   '已提交'\n" +
+            "               END\n" +
+            "           ) AS status\n" +
+            "from (SELECT DATE_FORMAT(b.createTime, '%Y-%m-%d') as time,\n" +
+            "             b.*,\n" +
+            "             c.coursename\n" +
+            "      FROM job b,\n" +
+            "           teachclass c\n" +
+            "      WHERE b.teachclassid in\n" +
+            "            (SELECT a.classID\n" +
+            "             FROM studentclass a\n" +
+            "             WHERE a.studentno = #{studentid})\n" +
+            "        AND c.ID = b.teachclassid\n" +
+            "        AND c.ID = #{classid}\n" +
+            "      ORDER BY b.ID DESC) as job\n" +
+            "         LEFT JOIN (SELECT jobID, score from score where studentno = #{studentid}) as score\n" +
+            "                   ON score.jobID = job.ID")
+    List<Map<String, String>> gettaskdetailbyclass(@Param("classid") Integer classid, @Param("studentid") String studentid);
+
 }

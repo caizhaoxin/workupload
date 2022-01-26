@@ -51,7 +51,6 @@
                         <input type="text" name="studentno"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
-
             </div>
             <div class="layui-form-item" id="moreadd"  style="display: none">
                 <div class="layui-inline">
@@ -72,7 +71,6 @@
                         <input type="text" name="startno"  autocomplete="off" class="layui-input">
                     </div>
                 </div>
-
             </div>
             <div class="layui-form-item" >
                 <div class="layui-input-block">
@@ -132,12 +130,12 @@
                 ,toolbar: '#toolbarDemo'
                 ,title:name
                 ,cols: [[ //表头
-                    {field: 'id', title: 'ID',  sort: true, fixed: 'left',width:120}
+                    {field: 'id', title: 'ID',  sort: true, fixed: 'left',width:120, hide:'true'}
                     ,{field: 'name', title: '姓名'}
                     ,{field:'pinyin',title:'拼音'}
                     ,{field: 'classid', title: '班级代号'}
                     ,{field: 'studentno', title: '学号',sort: true}
-                    ,{field: 'no', title: '编号',edit:'text',sort:true}
+                    ,{field: 'no', title: '编号',edit:'text',sort:true, hide:'true'}
                    ,{field: 'note', title: '备注',edit:'text'}
                     ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
                 ]]

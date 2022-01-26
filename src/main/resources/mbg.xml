@@ -12,7 +12,7 @@
 
         <!-- 配置数据库连接信息 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://47.100.58.250:3306/recevie?useSSL=false"
+                        connectionURL="jdbc:mysql://211.66.130.46:44455/lesson?useSSL=false"
                         userId="root"
                         password="123456">
         </jdbcConnection>

@@ -15,6 +15,8 @@ import java.util.*;
 public class teacherService {
     private static final Logger logger = LoggerFactory.getLogger(teacherService.class);
     @Autowired(required = false)
+    classfileMapper classfileMapper;
+    @Autowired(required = false)
     teacherMapper teacherMapper;
     @Autowired(required = false)
     teachclassMapper teachclassMapper;
@@ -272,5 +274,9 @@ public class teacherService {
 
     public void deleteteacherbyid(String teacherno) {
         teacherMapper.deleteByPrimaryKey(teacherno);
+    }
+
+    public void deleteteachfilebyfileid(Integer fileid) {
+        classfileMapper.selectByTeachclassId(fileid);
     }
 }

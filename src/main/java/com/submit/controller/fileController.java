@@ -5,16 +5,16 @@ import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.read.context.AnalysisContext;
 import com.alibaba.excel.read.event.AnalysisEventListener;
 import com.alibaba.excel.support.ExcelTypeEnum;
-import com.submit.pojo.job;
-import com.submit.pojo.score;
-import com.submit.pojo.student;
-import com.submit.pojo.teachclass;
+import com.submit.pojo.*;
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,9 +25,7 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -46,11 +44,187 @@ public class fileController {
     com.submit.dao.scoreMapper scoreMapper;
     @Autowired(required = false)
     com.submit.service.teacherService teacherService;
+    @Autowired(required = false)
+    com.submit.service.classfileService classfileService;
+
+    @ResponseBody
+    @PostMapping("teacher/deleteclassfile")
+    public String deletestudent(Integer classid, Integer classfileid) {
+        System.out.println("classfileid: " + classfileid);
+        try {
+            // 文件删除
+            classfile classfile = classfileService.selectOneByClassfileId(classfileid);
+            if (classfile == null) return "删除文件失败";
+            String fileName = classfile.getFilename();
+            String path = Paths.get(uploadFilePath, "classfile", Integer.toString(classid), fileName).toString();
+            File file = new File(path);
+            if (file.delete()) {
+                logger.info(path + " 文件已被删除！");
+            } else {
+                logger.info(path + " 删除文件失败！");
+            }
+        } catch (
+                Exception e) {
+            return String.format("删除文件失败, 错误：", e.toString());
+        }
+        try {
+            // 数据库删除记录
+            classfileService.deleteByPrimaryKey(classfileid);
+        } catch (
+                Exception e) {
+            return String.format("删除文件失败, 错误：", e.toString());
+        }
+        return "删除文件成功";
+    }
+
+    @ResponseBody
+    @GetMapping("teacher/getclassfile")
+    public Map<String, Object> teachergetclassfile(Integer teachclassid) {
+        return getclassfile(teachclassid);
+    }
+
+    @ResponseBody
+    @GetMapping("student/getclassfile")
+    public Map<String, Object> studentgetclassfile(Integer teachclassid) {
+        return getclassfile(teachclassid);
+    }
+
+    public Map<String, Object> getclassfile(Integer teachclassid) {
+        List<classfile> list = null;
+        if (teachclassid <= 0) {
+            list = new ArrayList<>();
+            Map<String, Object> map = new HashMap<>();
+            map.put("code", "0");
+            map.put("count", list.size());
+            map.put("data", list);
+            return map;
+        }
+        try {
+            list = classfileService.getclassfile(teachclassid);
+        } catch (Exception e) {
+            list = new ArrayList<>();
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", "0");
+        map.put("count", list.size());
+        map.put("data", list);
+        return map;
+    }
+
+    @ResponseBody
+    @GetMapping("teacher/downloadclassfile")
+    public String teachergetclassfile(@RequestParam("classid") Integer classid,
+                               @RequestParam("classfileid") Integer classfileid,
+                               HttpServletRequest request, HttpServletResponse response) throws IOException {
+        return getclassfile(classid, classfileid, request, response);
+    }
+
+    @ResponseBody
+    @GetMapping("student/downloadclassfile")
+    public String studentgetclassfile(@RequestParam("classid") Integer classid,
+                                      @RequestParam("classfileid") Integer classfileid,
+                                      HttpServletRequest request, HttpServletResponse response) throws IOException {
+        return getclassfile(classid, classfileid, request, response);
+    }
+
+    public String getclassfile(@RequestParam("classid") Integer classid,
+                               @RequestParam("classfileid") Integer classfileid,
+                               HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 获取文件名
+        classfile classfile = classfileService.selectOneByClassfileId(classfileid);
+        String fileName = "";
+        String fileNameArr[] = classfile.getFilename().split("_");
+        if (fileNameArr == null || fileNameArr.length <= 1) {
+            return "下载失败";
+        }
+        for (int i = 1; i < fileNameArr.length; i++) {
+            fileName += fileNameArr[i];
+        }
+        // 拼接成文件路径
+        String pat = Paths.get(uploadFilePath, "classfile", Integer.toString(classid), classfile.getFilename()).toString();
+        response.setCharacterEncoding("utf-8");
+        request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
+        response.setContentType("text/html");
+
+        File file = new File(pat);
+        if (!file.exists()) {
+            System.out.println(pat.toString());
+            return "文件不存在";
+        }
+
+        response.reset();
+        response.setContentType("application/octet-stream");
+        response.setCharacterEncoding("utf-8");
+        response.setContentLength((int) file.length());
+
+        response.setHeader("Content-Disposition", "attachment;filename=" +
+                new String(fileName.getBytes("utf-8"), "ISO8859_1"));
+
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));) {
+            byte[] buff = new byte[1024];
+            OutputStream os = response.getOutputStream();
+            int i = 0;
+            while ((i = bis.read(buff)) != -1) {
+                os.write(buff, 0, i);
+                os.flush();
+            }
+        } catch (IOException e) {
+            return "下载失败";
+        }
+        try {
+            classfileService.increDownloadTime(classfileid);
+        } catch (Exception e) {
+            //
+        }
+        return "下载成功";
+    }
+
+    @ResponseBody
+    @PostMapping("teacher/addclassfile")
+    public String addclassfile(MultipartFile file, Integer lesson) throws IOException {
+        // 检查文件是否合法
+        if (file.isEmpty() || file == null) {
+            return "请选择正确文件";
+        }
+        // 数据库更新
+        // 文件名前面加一个hash前缀，防止冲突
+        Random r = new Random();
+        String fileName = r.nextInt(999999999) + "_" + file.getOriginalFilename();
+        classfile classfile = new classfile();
+        classfile.setFilename(fileName);
+        classfile.setTeachclassid(lesson);
+        classfile.setDownloadtime(0);
+        classfile.setFilesize(file.getSize());
+        classfile.setUploadtime(new Date());
+        classfileService.insertOneFile(classfile);
+
+        // 把文件放到file对应的位置
+        String pat = "";
+        pat = "classfile/" + lesson + "/";
+        String path_str = Paths.get(uploadFilePath, pat).toString();
+        File dir = new File(path_str);
+        if (!dir.exists())//不存在就新建文件夹
+        {
+            dir.mkdirs();
+        }
+        logger.info(path_str);
+
+        File insertFile = new File(dir, fileName);//创建文件
+        OutputStream out = new FileOutputStream(insertFile);
+        BufferedOutputStream buf = new BufferedOutputStream(out);
+
+        byte by[] = file.getBytes();
+        buf.write(by);
+        buf.close();
+        out.close();
+
+        return "上传成功";
+    }
 
     @ResponseBody
     @PostMapping("teacher/addstudent")
     public String teacheraddstudent(MultipartFile file, String name, String pinyin, String password, String studentno) throws IOException {
-
         logger.info(studentno + " " + name + " " + password + " " + pinyin);
         //logger.info(file.getOriginalFilename());
         InputStream inputStream = null;
@@ -179,6 +353,11 @@ public class fileController {
 
         if (isovertime) return "作业已超时，您已补交成功";
         return "上传成功";
+    }
+
+    @PostMapping(value = "/downloadclassfile")//teachclassid jobid
+    public String downloadclassfile(int teachclassid, int classFileId) throws IOException {
+        return "ok";
     }
 
     @PostMapping(value = "/download")//teachclassid jobid

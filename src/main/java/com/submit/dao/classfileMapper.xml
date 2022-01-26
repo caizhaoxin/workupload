@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.submit.dao.classfileMapper" >
+    <resultMap id="BaseResultMap" type="com.submit.pojo.classfile" >
+        <id column="ID" property="id" jdbcType="INTEGER" />
+        <result column="teachclassid" property="teachclassid" jdbcType="INTEGER" />
+        <result column="filename" property="filename" jdbcType="VARCHAR" />
+        <result column="uploadtime" property="uploadtime" jdbcType="TIMESTAMP" />
+        <result column="downloadtime" property="downloadtime" jdbcType="INTEGER" />
+        <result column="filesize" property="filesize" jdbcType="INTEGER" />
+    </resultMap>
+    <select id="selectByTeachclassId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select * from classfile where teachclassid=#{teachclassid,jdbcType=INTEGER} order by uploadtime desc
+    </select>
+    <select id="selectOneByClissfileId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select * from classfile where id=#{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from classfile
+        where ID = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertOneFile" parameterType="com.submit.pojo.classfile" >
+        insert into classfile (teachclassid, filename,
+                               uploadtime, downloadtime, filesize)
+        values (#{teachclassid,jdbcType=INTEGER}, #{filename,jdbcType=VARCHAR},
+                #{uploadtime,jdbcType=TIMESTAMP}, #{downloadtime,jdbcType=INTEGER}, #{filesize,jdbcType=INTEGER})
+    </insert>
+    <update id="increDownloadTime" parameterType="java.lang.Integer" >
+        update classfile set downloadtime=downloadtime+1 where ID = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

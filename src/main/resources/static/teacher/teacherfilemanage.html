@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+    <title>学生信息管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../layui/css/bootstrap.css">
+    <link rel="stylesheet" href="../layui/css/personal.css">
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>课程文件管理</legend>
+</fieldset>
+<div class="larry-personal">
+    <form class="layui-form col-lg-5 " action="" method="post" id="uploadclassfile">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">课程选择</label>
+                <div class="layui-input-inline">
+                    <select name="lesson" id="lesson" lay-filter="lessonname">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">文件上传</label>
+            <div class="layui-upload">
+                <button type="button" class="layui-btn layui-btn-normal" name="classfilechoose" id="classfilechoose">
+                    选择文件
+                </button>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="filesubmit">上传</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="larry-personal-body clearfix">
+        <!--            UI填充造成视觉的效果！-->
+    </div>
+    <div class="larry-personal-body clearfix">
+        <table class="layui-hide" id="classfile" lay-filter="classfile"></table>
+    </div>
+</div>
+</body>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">右侧进行筛选导出</button>
+    </div>
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="download">下载</a>
+</script>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<script type="text/javascript" src="../layui/jquery-2.2.1.min.js"></script>
+<script>
+    //重新渲染
+    function renderForm() {
+        layui.use('form', function () {
+            var form = layui.form;//高版本建议把括号去掉，有的低版本，需要加()
+            form.render();
+        });
+    }
+
+    // 展示课程
+    function showclassfile() {
+        var classid = $("#lesson").val();
+        console.log('lesson.val: ', $("#lesson").val())
+        layui.use('table', function () {
+            var table = layui.table;//高版本建议把括号去掉，有的低版本，需要加()
+            table.render({
+                elem: '#classfile'
+                , url: 'getclassfile' //数据接口
+                , where: {'teachclassid': classid}
+                , page: false //开启分页
+                // , toolbar: '#toolbarDemo'
+                , title: '学生信息'
+                , cols: [[ //表头
+                    {field: 'id', title: 'id', hide:'true'}
+                    , {field: 'filename', title: '文件名'}
+                    , {field: 'uploadtime', title: '文件创建时间', sort: true}
+                    , {field: 'downloadtime', title: '文件下载次数'}
+                    , {field: 'filesizeReadable', title: '文件大小'}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
+                ]]
+            });
+            // 监听删除
+            table.on('tool(classfile)', function (obj) {
+                var data = obj.data;
+                var classid = $("#lesson").val()
+                if (classid == null) return
+                if (obj.event === 'del') {
+                    layer.confirm('确定删除改文件嚒？', function (index) {
+                        $.ajax({
+                            url: 'deleteclassfile',
+                            data: {
+                                'classfileid': data.id,
+                                'classid': classid
+                            },
+                            method: 'POST',
+                            traditional: true,
+                            success: function (msg) {
+                                layer.msg(msg);
+                                if (msg === '删除文件成功') {
+                                    obj.del();
+                                }
+                            },
+                            error: function (msg) {
+                                layer.msg(msg)
+                            }
+                        })
+                        layer.close(index);
+                    });
+                } else if (obj.event === 'download') {
+                    layer.msg(JSON.stringify("下载中，请稍后"));
+                    // http://localhost:8080/teacher/downloadclassfile/classid=2&classfileid=17
+                    // var cur_url = window.location.href;
+                    // var download_url = cur_url + 'downloadclassfile/classid=' + classid + '&classfileid=' + data.id
+                    // console.log('download_url: ', download_url)
+                    // window.location=url+"downloadclassfile/classid=' + classid + '&classfileid=' + data.id;
+                    // window.open('downloadclassfile/classid=' + classid + '&classfileid=' + data.id);
+                    window.location.href = '/teacher/downloadclassfile?classid=' + classid + '&classfileid=' + data.id;
+                    // $.ajax({
+                    //     url: "downloadclassfile",
+                    //     type: "GET",
+                    //     data: {
+                    //         'classid': classid,
+                    //         'classfileid': data.id
+                    //     },
+                    //     traditional: true,//这里设置为true
+                    //     success: function (data) {
+                    //         //do sth...
+                    //         layer.msg(JSON.stringify(data));
+                    //         console.log(data);
+                    //     }
+                    // });
+                    return true;
+                }
+            });
+        });
+    }
+
+
+    //把新的课程写入到select框中
+    function filllesson(json) {
+        $("#lesson").empty();
+        for (var i = 0; i < json.length; i++) {
+            $("#lesson").append(" <option value=\"" + json[i].id + "\">" + json[i].coursename + "</option>");
+            console.log(json[i].coursename)
+        }
+    }
+
+    // 获取当前这个老师的所有课程
+    function getteachclass() {
+        $.ajax({
+            url: "getteacherclassthisterm",
+            type: "GET",
+            traditional: true,//这里设置为true
+            success: function (data) {
+                //do sth...
+                filllesson(data);
+                showclassfile();
+                renderForm();
+            }
+        });
+    }
+
+    layui.use(['form', 'layedit', 'laydate', 'table', 'upload'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , table = layui.table
+            , laydate = layui.laydate
+            , upload = layui.upload;
+        form.on('select(lessonname)', function (data) {
+            // getjob();
+        });
+        // 文件选择
+        upload.render({
+            elem: '#classfilechoose'
+            , auto: false
+            , accept: 'file'
+        });
+        // 课程名修改监听
+        form.on('select(lessonname)', function (data) {
+            // console.log('lessonname data: ', data)
+            showclassfile();
+        });
+        // 文件上传
+        form.on('submit(filesubmit)', function (data) {
+            layer.msg(JSON.stringify("正在解析上传,请稍后"));
+            var myform = document.getElementById("uploadclassfile");
+            var formdate = new FormData(myform);
+            console.log(myform)
+            console.log(formdate);
+            $.ajax({
+                url: "addclassfile",
+                type: "POST",
+                data: formdate,
+                contentType: false,       //一定要写
+                processData: false,       //一定要写
+                traditional: true,//这里设置为true
+                success: function (data) {
+                    //do sth...
+                    layer.msg(JSON.stringify(data));
+                    $("classfilechoose").val = ""
+                    console.log(data);
+                    showclassfile()
+                }
+            });
+            return false;
+        })
+    })
+    // 初始化调用渲染
+    getteachclass();
+</script>
+</html>

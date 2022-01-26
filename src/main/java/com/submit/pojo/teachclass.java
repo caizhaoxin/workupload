@@ -70,4 +70,17 @@ public class teachclass {
     public void setTeacherno(String teacherno) {
         this.teacherno = teacherno == null ? null : teacherno.trim();
     }
+
+    @Override
+    public String toString() {
+        return "teachclass{" +
+                "id=" + id +
+                ", teachclassno='" + teachclassno + '\'' +
+                ", coursename='" + coursename + '\'' +
+                ", coursesemester='" + coursesemester + '\'' +
+                ", credit=" + credit +
+                ", evalmethod='" + evalmethod + '\'' +
+                ", teacherno='" + teacherno + '\'' +
+                '}';
+    }
 }

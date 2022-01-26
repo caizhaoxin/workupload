@@ -13,111 +13,111 @@
 <body>
 
 <div class="layui-form-item">
-            <blockquote class="layui-elem-quote layui-text">
-            </blockquote>
-    <div class="layui-card-header" ><p align="center">作业提交（必须为zip文件）</p></div>
+    <blockquote class="layui-elem-quote layui-text">
+    </blockquote>
+    <div class="layui-card-header"><p align="center">作业提交（必须为zip文件）</p></div>
 
-<form name="myupload" id="myupload" class="layui-form" action="onfile" method="post" enctype='multipart/form-data'
+    <form name="myupload" id="myupload" class="layui-form" action="onfile" method="post" enctype='multipart/form-data'
           style="margin-left: auto;margin-right: auto;text-align: center">
 
         <!--3学科名称-->
 
-    <div class="layui-form-item">
+        <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">科目类别：</label>
                 <div class="layui-input-block">
-                    <select name="lessonid"  id="lesson" lay-filter="lesson">
-                        <option th:each="lesson:${list}" th:value="${lesson.id}" th:text="${lesson.coursename}"></option>
+                    <select name="lessonid" id="lesson" lay-filter="lesson">
+                        <option th:each="lesson:${list}" th:value="${lesson.id}"
+                                th:text="${lesson.coursename}"></option>
                     </select>
                 </div>
             </div>
-    </div>
-     <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">实验名称：</label>
-            <div class="layui-input-block">
-                <!--<select name="lessonname" id="lessonname">-->
-                    <!--<option value="11" >te1</option>-->
-
-                <!--</select>-->
-                <select name="jobid"  id="lessonname" >
-                    <option th:each="lesson:${list}" th:value="${lesson.id}" th:text="${lesson.id}"></option>
-                    <option value="bigsai" >bigsai</option>
-                </select>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">实验名称：</label>
+                <div class="layui-input-block">
+                    <select name="jobid" id="lessonname">
+                        <option th:each="lesson:${list}" th:value="${lesson.id}" th:text="${lesson.id}"></option>
+                        <option value="bigsai">bigsai</option>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
         <div class="layui-upload">
             <label id="lb"></label><br><!-- 展示文字名称-->
             <input type="button" value="选取文件" class="layui-btn layui-btn-normal" onclick="getFile()">
-            <input style="display: none" type="file"  name="file" id="getF" onchange="clickF()">
+            <input style="display: none" type="file" name="file" id="getF" onchange="clickF()">
             <!--<button type="submit" class="layui-btn" id="test9" onclick="alert('正在上传，请稍后')">开始上传</button>-->
             <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
         </div>
     </form>
-            <div class="layui-form-mid layui-word-aux">此处演示</div>
+    <div class="layui-form-mid layui-word-aux">此处演示</div>
 
-        </div>
+</div>
 
 
 <script type="text/javascript" th:src="@{layui/layui.js}"></script>
 <script type="text/javascript" th:src="@{layui/jquery-2.2.1.min.js}"></script>
 <script>
-//重新渲染
-    function renderForm(){
-        layui.use('form', function(){
+    //重新渲染
+    function renderForm() {
+        layui.use('form', function () {
             var form = layui.form;//高版本建议把括号去掉，有的低版本，需要加()
             form.render();
         });
     }
-    function getFile(){
+
+    function getFile() {
         $("#getF").click();
     }
-    var filename="";
-    function clickF() {
-        filename=$("#getF").val();
-        var filenames=filename.split("\\");
-        filename=filenames[filenames.length-1];
-        $("#lb").text(filename);
 
+    var filename = "";
+
+    function clickF() {
+        filename = $("#getF").val();
+        var filenames = filename.split("\\");
+        filename = filenames[filenames.length - 1];
+        $("#lb").text(filename);
     }
+
     function filldate(json) {
-         $("#lessonname").empty();
-        for (var i=0;i<json.length;i++)
-        {
-            $("#lessonname").append(" <option value=\""+json[i].id+"\">"+json[i].title+"</option>");
+        $("#lessonname").empty();
+        for (var i = 0; i < json.length; i++) {
+            $("#lessonname").append(" <option value=\"" + json[i].id + "\">" + json[i].title + "</option>");
             console.log(json[i].title)
         }
         renderForm();
     }
-    function getjobbyid()
-    {
-       // $("#lessonname").empty();
-        var id=$("#lesson").val();
+
+    function getjobbyid() {
+        // $("#lessonname").empty();
+        var id = $("#lesson").val();
         $.ajax({
             url: "getjobbyteachclassid",
             type: "GET",
             data: {
-             id:id,
+                id: id,
             },
             traditional: true,//这里设置为true
-            success: function(data) {
+            success: function (data) {
                 //do sth...
                 filldate(data)
             }
         });
     }
-    getjobbyid();
-    layui.use(['form', 'layedit', 'laydate'], function(){
-        var form = layui.form
-            ,layer = layui.layer
-            ,layedit = layui.layedit
-            ,laydate = layui.laydate;
 
-        form.on('submit(formDemo)', function(data){
-            layer.msg(JSON.stringify(data.field.file+"正在上传"));
-            var myform=document.getElementById("myupload");
-            var formdate=new FormData(myform);
+    getjobbyid();
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+
+        form.on('submit(formDemo)', function (data) {
+            layer.msg(JSON.stringify(data.field.file + "正在上传"));
+            var myform = document.getElementById("myupload");
+            var formdate = new FormData(myform);
 
             $.ajax({
                 url: "onfile",
@@ -126,37 +126,24 @@
                 contentType: false,       //一定要写
                 processData: false,       //一定要写
                 traditional: true,//这里设置为true
-                success: function(data) {
-                   layer.msg(JSON.stringify(data));
+                success: function (data) {
+                    layer.msg(JSON.stringify(data));
                     console.log(data);
                 }
             });
             return false;
-            //执行实例
-            // $.post("onfile",data.field,function(res){
-            //     if(res.status){
-            //         layer.msg(res.info, {time: 2000});
-            //         // var url = "{:U('student/student_lists')}"; //
-            //         // setTimeout(window.location.href=url,2000);
-            //     }else{
-            //         layer.msg(res.info, {time: 2000});
-            //     }
-            // },'json');
         });
         //日期
-
-        form.on('select(lesson)', function(data){
-           getjobbyid();
+        form.on('select(lesson)', function (data) {
+            getjobbyid();
         });
         //监听提交
-        form.on('submit(demo1)', function(data){
+        form.on('submit(demo1)', function (data) {
             layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })
             return false;
         });
-
-
     });
 </script>
 </body>

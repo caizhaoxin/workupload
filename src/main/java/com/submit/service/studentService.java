@@ -26,14 +26,12 @@ public class studentService {
     @Autowired(required = false)
     scoreMapper scoreMapper;
 
+    public List<teachclass> getstudentclassbystudentno(String studentno){
+        return studentclassMapper.getstudentclassbystudentno(studentno);
+    }
+
     public List<teachclass> getList(String studentid) {
         return teachclassMapper.getteacherclassbystuid(studentid);
-//        for(teachclass teachclass:list)
-//        {
-//            String time=teachclass.getCoursesemester();
-//            Calendar calendar=Calendar.getInstance();
-//            int month=(calendar.get(Calendar.MONTH));
-//        }
     }
 
     public List<job> getjobbyteacherclassid(int teacherclassid) {
@@ -76,6 +74,11 @@ public class studentService {
 
     public List<Map<String, Object>> gettaskdetail(String studentid) {
         List<Map<String, Object>> list = jobMapper.gettaskdetail(studentid);
+        return list;
+    }
+
+    public List<Map<String, String>> gettaskdetailbyclass(Integer classid, String studentid) {
+        List<Map<String, String>> list = jobMapper.gettaskdetailbyclass(classid, studentid);
         return list;
     }
 }
