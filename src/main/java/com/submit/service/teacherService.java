@@ -152,6 +152,7 @@ public class teacherService {
 
     public void updatescorebyscoreid(String scoreid, String score, String note) {
         logger.info(scoreid + " " + score + " " + note);
+        if (scoreid == null || scoreid == "") return;
         score score1 = scoreMapper.selectByPrimaryKey(Long.parseLong(scoreid));
         if (score != null && !"".equals(score)) {
             score1.setScore(Integer.parseInt(score));

@@ -13,7 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>workupload</name>
     <description>Demo project for Spring Boot</description>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>1.8</java.version>
@@ -100,6 +100,7 @@
     </dependencies>
 
     <build>
+        <finalName>homework-submit</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -116,10 +117,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <fork>true</fork>
-                </configuration>
-
+                <version>${project.parent.version}</version>
             </plugin>
         </plugins>
     </build>

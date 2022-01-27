@@ -57,14 +57,14 @@ CREATE TABLE `classfile`
 -- ----------------------------
 -- Records of job
 -- ----------------------------
-INSERT INTO `job`
-VALUES ('4', '6', '3', '文件', '2019-2-21', '1', '', '2019-02-20 22:02:25');
-INSERT INTO `job`
-VALUES ('5', '2', '1', '登陆', '2019-2-20', '1', '11', '2019-02-21 11:25:36');
-INSERT INTO `job`
-VALUES ('6', '2', '2', '回话操作', '2019-2-12', '1', '65', '2019-02-21 11:25:56');
-INSERT INTO `job`
-VALUES ('8', '6', '2', 'JDBC编程', '2012-6-29', '1', '', '2019-02-21 15:18:19');
+# INSERT INTO `job`
+# VALUES ('4', '6', '3', '文件', '2019-2-21', '1', '', '2019-02-20 22:02:25');
+# INSERT INTO `job`
+# VALUES ('5', '2', '1', '登陆', '2019-2-20', '1', '11', '2019-02-21 11:25:36');
+# INSERT INTO `job`
+# VALUES ('6', '2', '2', '回话操作', '2019-2-12', '1', '65', '2019-02-21 11:25:56');
+# INSERT INTO `job`
+# VALUES ('8', '6', '2', 'JDBC编程', '2012-6-29', '1', '', '2019-02-21 15:18:19');
 
 -- ----------------------------
 -- Table structure for score
@@ -88,12 +88,12 @@ CREATE TABLE `score`
 -- ----------------------------
 -- Records of score
 -- ----------------------------
-INSERT INTO `score`
-VALUES ('7', '6', '162210702234', null, '2019-04-21 15:50:30', null);
-INSERT INTO `score`
-VALUES ('8', '6', '162210702235', null, '2019-04-21 23:30:54', null);
-INSERT INTO `score`
-VALUES ('9', '6', '162210702201', null, '2019-04-19 18:40:46', null);
+# INSERT INTO `score`
+# VALUES ('7', '6', '162210702234', null, '2019-04-21 15:50:30', null);
+# INSERT INTO `score`
+# VALUES ('8', '6', '162210702235', null, '2019-04-21 23:30:54', null);
+# INSERT INTO `score`
+# VALUES ('9', '6', '162210702201', null, '2019-04-19 18:40:46', null);
 
 -- ----------------------------
 -- Table structure for student
@@ -113,17 +113,9 @@ CREATE TABLE `student`
 -- Records of student
 -- ----------------------------
 INSERT INTO `student`
-VALUES ('1100888', '张思', 'zhang', '1100888');
+VALUES ('21215400', '蔡兆信', 'xinxin', '123456');
 INSERT INTO `student`
-VALUES ('1441904116', '蒋x', 'jiang', '1441904116');
-INSERT INTO `student`
-VALUES ('1441904231', '谢x', 'xie4', '1441904231');
-INSERT INTO `student`
-VALUES ('152210702113', '凌xx', 'ling', '152210702113');
-INSERT INTO `student`
-VALUES ('152210702132', '徐xx', 'xu', '152210702132');
-INSERT INTO `student`
-VALUES ('162210201321', '史xx', 'shi3', '162210201321');
+VALUES ('21215410', '杨培福', 'fufu', '123456');
 
 -- ----------------------------
 -- Table structure for studentclass
@@ -148,16 +140,16 @@ CREATE TABLE `studentclass`
 -- ----------------------------
 -- Records of studentclass
 -- ----------------------------
-INSERT INTO `studentclass`
-VALUES ('682', '1', '2', '1441904116', '');
-INSERT INTO `studentclass`
-VALUES ('683', '2', '2', '1441904231', '');
-INSERT INTO `studentclass`
-VALUES ('684', '3', '2', '152210702113', '');
-INSERT INTO `studentclass`
-VALUES ('685', '4', '2', '152210702132', '');
-INSERT INTO `studentclass`
-VALUES ('686', '5', '2', '162210201321', '');
+# INSERT INTO `studentclass`
+# VALUES ('682', '1', '2', '1441904116', '');
+# INSERT INTO `studentclass`
+# VALUES ('683', '2', '2', '1441904231', '');
+# INSERT INTO `studentclass`
+# VALUES ('684', '3', '2', '152210702113', '');
+# INSERT INTO `studentclass`
+# VALUES ('685', '4', '2', '152210702132', '');
+# INSERT INTO `studentclass`
+# VALUES ('686', '5', '2', '162210201321', '');
 
 -- ----------------------------
 -- Table structure for teachclass
@@ -169,7 +161,7 @@ CREATE TABLE `teachclass`
     `coursename`     varchar(100) DEFAULT NULL,
     `coursesemester` char(11)    NOT NULL,
     `credit`         tinyint(4)   DEFAULT NULL,
-    `evalmethod`     char(4)      DEFAULT NULL,
+    `evalmethod`      varchar(50)      DEFAULT NULL,
     `teacherno`      varchar(20)  DEFAULT NULL,
     `ID`             int(11)     NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (`ID`),
@@ -183,14 +175,14 @@ CREATE TABLE `teachclass`
 -- ----------------------------
 -- Records of teachclass
 -- ----------------------------
-INSERT INTO `teachclass`
-VALUES ('19090173a-1', 'Android application development', '2018-2019-1', '3', '考试', '1998000011', '1');
-INSERT INTO `teachclass`
-VALUES ('19090177a-1', 'Web applications development using JSP & Servlet', '2018-2019-2', '4', '考试', '1998000011', '2');
-INSERT INTO `teachclass`
-VALUES ('19020183b-1', 'Java高级编程', '2018-2019-2', '3', '考查', '1998000011', '6');
-INSERT INTO `teachclass`
-VALUES ('19W07014b-1', '移动终端程序开发', '2018-2019-2', '3', '考查', '1998000011', '7');
+# INSERT INTO `teachclass`
+# VALUES ('19090173a-1', 'Android application development', '2018-2019-1', '3', '考试', '1998000011', '1');
+# INSERT INTO `teachclass`
+# VALUES ('19090177a-1', 'Web applications development using JSP & Servlet', '2018-2019-2', '4', '考试', '1998000011', '2');
+# INSERT INTO `teachclass`
+# VALUES ('19020183b-1', 'Java高级编程', '2018-2019-2', '3', '考查', '1998000011', '6');
+# INSERT INTO `teachclass`
+# VALUES ('19W07014b-1', '移动终端程序开发', '2018-2019-2', '3', '考查', '1998000011', '7');
 
 -- ----------------------------
 -- Table structure for teacher
@@ -210,9 +202,9 @@ CREATE TABLE `teacher`
 -- Records of teacher
 -- ----------------------------
 INSERT INTO `teacher`
-VALUES ('123456', '张三', '123', '1');
-INSERT INTO `teacher`
-VALUES ('1998000011', '夏老师', '1998000014', '0');
+VALUES ('nanyh', '南老师', '123456', '1');
+# INSERT INTO `teacher`
+# VALUES ('1998000011', '夏老师', '1998000014', '0');
 
 -- ----------------------------
 -- Table structure for timetable
@@ -233,36 +225,3 @@ CREATE TABLE `timetable`
 -- ----------------------------
 -- Records of timetable
 -- ----------------------------
-
-select job.*,
-       (
-           CASE
-               WHEN score.score is null THEN
-                   0
-               ELSE
-                   score.score
-               END
-           ) AS score,
-       (
-           CASE
-               WHEN score.submitTime is null THEN
-                   '未提交'
-               ELSE
-                   '已提交'
-               END
-           ) AS status
-from (SELECT DATE_FORMAT(b.createTime, '%Y-%m-%d') as time,
-             b.*,
-             c.coursename
-      FROM job b,
-           teachclass c
-      WHERE b.teachclassid in
-            (SELECT a.classID
-             FROM studentclass a
-             WHERE a.studentno = '21215400')
-        AND c.ID = b.teachclassid
-        AND c.ID = 14
-      ORDER BY b.ID DESC) as job
-         LEFT JOIN (SELECT jobID, score, time as submitTime from score where studentno = '21215400') as score
-                   ON score.jobID = job.ID
-
