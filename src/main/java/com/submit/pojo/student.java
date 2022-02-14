@@ -15,7 +15,7 @@ public class student extends BaseRowModel implements Serializable {
     @ExcelProperty(index = 2)
     private String pinyin;
 
-    @ExcelProperty(index = 3)
+//    @ExcelProperty(index = 3)
     private String password;
 
     public String getStudentno() {

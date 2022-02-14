@@ -47,6 +47,8 @@ public class fileController {
     @Autowired(required = false)
     com.submit.service.classfileService classfileService;
 
+    public static String OriginalPassWd = "123456";
+
     @ResponseBody
     @PostMapping("teacher/deleteclassfile")
     public String deletestudent(Integer classid, Integer classfileid) {
@@ -91,7 +93,7 @@ public class fileController {
 
     public Map<String, Object> getclassfile(Integer teachclassid) {
         List<classfile> list = null;
-        if (teachclassid <= 0) {
+        if (teachclassid==null || teachclassid <= 0) {
             list = new ArrayList<>();
             Map<String, Object> map = new HashMap<>();
             map.put("code", "0");
@@ -261,6 +263,7 @@ public class fileController {
                 List<Object> list = listener.getDatas();
                 for (Object student : list) {
                     com.submit.pojo.student stu = (com.submit.pojo.student) student;
+                    stu.setPassword(OriginalPassWd);
                     try {
                         teacherService.addstudentuser(stu);
                         success++;

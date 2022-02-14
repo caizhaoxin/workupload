@@ -126,6 +126,7 @@ public class teacherUserController {
 
     @PostMapping("updatepasswordtecher")
     public String updatepasswordtecher(String oldpassword, String newpassword, HttpServletRequest request) {
+//        System.out.println("oldpassword: " + oldpassword);
         teacher teacher = teacherService.getteacherbyid((String) request.getSession().getAttribute("teacherid"));
 
         if (oldpassword == null || newpassword == null) {

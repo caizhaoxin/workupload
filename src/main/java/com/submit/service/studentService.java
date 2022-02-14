@@ -52,13 +52,15 @@ public class studentService {
         List<Map> list = teachclassMapper.getallclasslesson();
         List<Map> list1 = new ArrayList<>();
         for (Map map : list) {
-            String date = (String) map.get("coursesemester");
-            String dayear = date.substring(0, 4);
-            String xueqi = date.substring(10, 11);
-            if ((Integer.parseInt(xueqi) == 2 && month < 8 && Integer.parseInt(dayear) == year - 1) || (Integer.parseInt(xueqi) == 2 && month > 8 && Integer.parseInt(dayear) == year)) {
-                list1.add(map);
-                logger.info(dayear + " " + xueqi);
-            }
+            list1.add(map);
+//            String date = (String) map.get("coursesemester");
+//            System.out.println("data: "+date);
+//            String dayear = date.substring(0, 4);
+//            String xueqi = date.substring(10, 11);
+//            if ((Integer.parseInt(xueqi) == 2 && month < 8 && Integer.parseInt(dayear) == year - 1) || (Integer.parseInt(xueqi) == 2 && month > 8 && Integer.parseInt(dayear) == year)) {
+//                list1.add(map);
+//                logger.info(dayear + " " + xueqi);
+//            }
         }
         return list1;
     }
