@@ -15,7 +15,7 @@
 <div class="layui-form-item">
     <blockquote class="layui-elem-quote layui-text">
     </blockquote>
-    <div class="layui-card-header"><p align="center">作业提交（必须为zip文件）</p></div>
+    <div class="layui-card-header"><p align="center">作业提交<span style="color: #c00;">（必须为zip文件）</span></p></div>
 
     <form name="myupload" id="myupload" class="layui-form" action="onfile" method="post" enctype='multipart/form-data'
           style="margin-left: auto;margin-right: auto;text-align: center">
@@ -25,8 +25,8 @@
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">科目类别：</label>
-                <div class="layui-input-block">
-                    <select name="lessonid" id="lesson" lay-filter="lesson">
+                <div class="layui-input-block" style="width: 300px;">
+                    <select name="lessonid" id="lesson" lay-filter="lesson" style="width: 300px;">
                         <option th:each="lesson:${list}" th:value="${lesson.id}"
                                 th:text="${lesson.coursename}"></option>
                     </select>
@@ -36,8 +36,8 @@
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">实验名称：</label>
-                <div class="layui-input-block">
-                    <select name="jobid" id="lessonname">
+                <div class="layui-input-block" style="width: 300px;">
+                    <select name="jobid" id="lessonname" >
                         <option th:each="lesson:${list}" th:value="${lesson.id}" th:text="${lesson.id}"></option>
                         <option value="bigsai">无</option>
                     </select>
@@ -49,7 +49,7 @@
             <input type="button" value="选取文件" class="layui-btn layui-btn-normal" onclick="getFile()">
             <input style="display: none" type="file" name="file" id="getF" onchange="clickF()">
             <!--<button type="submit" class="layui-btn" id="test9" onclick="alert('正在上传，请稍后')">开始上传</button>-->
-            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button class="layui-btn" lay-submit lay-filter="formDemo">提交/更改</button>
         </div>
     </form>
 <!--    <div class="layui-form-mid layui-word-aux">此处演示</div>-->

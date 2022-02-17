@@ -55,8 +55,12 @@ public interface jobMapper {
             "           CASE\n" +
             "               WHEN score.submitTime is null THEN\n" +
             "                   '未提交'\n" +
+            "               WHEN score.submitTime<=job.duedate THEN\n" +
+            "                   '按时提交'\n" +
+            "               WHEN score.submitTime>job.duedate THEN\n" +
+            "                   '延时提交'\n" +
             "               ELSE\n" +
-            "                   '已提交'\n" +
+            "                   '未知状态'\n" +
             "               END\n" +
             "           ) AS status\n" +
             "from (SELECT DATE_FORMAT(b.createTime, '%Y-%m-%d') as time,\n" +

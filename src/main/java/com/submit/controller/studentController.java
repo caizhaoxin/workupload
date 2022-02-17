@@ -108,12 +108,14 @@ public class studentController {
     @GetMapping("gettaskdetailbyclass")
     public Map<String, Object> gettaskdetail(Integer classid, HttpServletRequest request) {
         String studentid = (String) request.getSession().getAttribute("studentid");
+        System.out.println("String studentid = (String) request.getSession().getAttribute(\"studentid\");:  "+studentid);
         List<Map<String, String>> list = null;
         try {
             list = studentService.gettaskdetailbyclass(classid, studentid);
         } catch (Exception e){
             list = new ArrayList<>();
         }
+        System.out.println(list.toString());
         Map<String, Object> map = new HashMap<>();
         map.put("code", 0);
         map.put("msg", "success");

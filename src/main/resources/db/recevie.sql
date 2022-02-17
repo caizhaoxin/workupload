@@ -12,6 +12,7 @@ File Encoding         : 65001
 
 Date: 2019-05-08 10:34:59
 */
+drop database if exists lesson;
 create database if not exists lesson;
 
 use lesson;
@@ -27,7 +28,7 @@ CREATE TABLE `job`
     `ID`           int(20) NOT NULL AUTO_INCREMENT COMMENT '自增长id',
     `teachclassid` int(20) NOT NULL COMMENT '所选课程，外键',
     `no`           int(20)      DEFAULT NULL COMMENT '序号，每个学生的实验报告文件名默认格式为学号项目实验X。X为序号',
-    `title`        varchar(20)  DEFAULT NULL COMMENT '序号',
+    `title`        varchar(50)  DEFAULT NULL COMMENT '序号',
     `duedate`      char(10)     DEFAULT NULL COMMENT '报告提交截止日期',
     `type`         int(20)      DEFAULT NULL COMMENT '作业类型。1-实验；2-作业',
     `note`         varchar(255) DEFAULT NULL,
@@ -57,14 +58,14 @@ CREATE TABLE `classfile`
 -- ----------------------------
 -- Records of job
 -- ----------------------------
-INSERT INTO `job`
-VALUES ('4', '6', '3', '文件', '2019-2-21', '1', '', '2019-02-20 22:02:25');
-INSERT INTO `job`
-VALUES ('5', '2', '1', '登陆', '2019-2-20', '1', '11', '2019-02-21 11:25:36');
-INSERT INTO `job`
-VALUES ('6', '2', '2', '回话操作', '2019-2-12', '1', '65', '2019-02-21 11:25:56');
-INSERT INTO `job`
-VALUES ('8', '6', '2', 'JDBC编程', '2012-6-29', '1', '', '2019-02-21 15:18:19');
+# INSERT INTO `job`
+# VALUES ('4', '6', '3', '文件', '2019-2-21', '1', '', '2019-02-20 22:02:25');
+# INSERT INTO `job`
+# VALUES ('5', '2', '1', '登陆', '2019-2-20', '1', '11', '2019-02-21 11:25:36');
+# INSERT INTO `job`
+# VALUES ('6', '2', '2', '回话操作', '2019-2-12', '1', '65', '2019-02-21 11:25:56');
+# INSERT INTO `job`
+# VALUES ('8', '6', '2', 'JDBC编程', '2012-6-29', '1', '', '2019-02-21 15:18:19');
 
 -- ----------------------------
 -- Table structure for score
@@ -74,10 +75,10 @@ CREATE TABLE `score`
 (
     `ID`        bigint(20)  NOT NULL AUTO_INCREMENT,
     `jobID`     int(20)     NOT NULL COMMENT '外键',
-    `studentno` varchar(20) NOT NULL,
+    `studentno` varchar(50) NOT NULL,
     `score`     int(5)       DEFAULT NULL,
     `time`      datetime     DEFAULT NULL COMMENT '可以用来区分不同类型作业信息。如实验，可以填入提交时间',
-    `note`      varchar(255) DEFAULT NULL,
+    `note`      varchar(500) DEFAULT NULL,
     PRIMARY KEY (`ID`),
     UNIQUE KEY `uniq_job` (`jobID`, `studentno`),
     CONSTRAINT `fk_jobid` FOREIGN KEY (`jobID`) REFERENCES `job` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -88,12 +89,12 @@ CREATE TABLE `score`
 -- ----------------------------
 -- Records of score
 -- ----------------------------
-INSERT INTO `score`
-VALUES ('7', '6', '162210702234', null, '2019-04-21 15:50:30', null);
-INSERT INTO `score`
-VALUES ('8', '6', '162210702235', null, '2019-04-21 23:30:54', null);
-INSERT INTO `score`
-VALUES ('9', '6', '162210702201', null, '2019-04-19 18:40:46', null);
+# INSERT INTO `score`
+# VALUES ('7', '6', '162210702234', null, '2019-04-21 15:50:30', null);
+# INSERT INTO `score`
+# VALUES ('8', '6', '162210702235', null, '2019-04-21 23:30:54', null);
+# INSERT INTO `score`
+# VALUES ('9', '6', '162210702201', null, '2019-04-19 18:40:46', null);
 
 -- ----------------------------
 -- Table structure for student
@@ -101,10 +102,10 @@ VALUES ('9', '6', '162210702201', null, '2019-04-19 18:40:46', null);
 DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student`
 (
-    `studentno` varchar(20) NOT NULL,
-    `name`      varchar(8)  DEFAULT NULL,
-    `pinyin`    varchar(20) DEFAULT NULL COMMENT '姓名的拼音，防止不认识生僻字',
-    `password`  varchar(20) DEFAULT NULL,
+    `studentno` varchar(50) NOT NULL,
+    `name`      varchar(50)  DEFAULT NULL,
+    `pinyin`    varchar(100) DEFAULT NULL COMMENT '姓名的拼音，防止不认识生僻字',
+    `password`  varchar(100) DEFAULT NULL,
     PRIMARY KEY (`studentno`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -112,18 +113,18 @@ CREATE TABLE `student`
 -- ----------------------------
 -- Records of student
 -- ----------------------------
-INSERT INTO `student`
-VALUES ('1100888', '张思', 'zhang', '1100888');
-INSERT INTO `student`
-VALUES ('1441904116', '蒋x', 'jiang', '1441904116');
-INSERT INTO `student`
-VALUES ('1441904231', '谢x', 'xie4', '1441904231');
-INSERT INTO `student`
-VALUES ('152210702113', '凌xx', 'ling', '152210702113');
-INSERT INTO `student`
-VALUES ('152210702132', '徐xx', 'xu', '152210702132');
-INSERT INTO `student`
-VALUES ('162210201321', '史xx', 'shi3', '162210201321');
+# INSERT INTO `student`
+# VALUES ('1100888', '张思', 'zhang', '1100888');
+# INSERT INTO `student`
+# VALUES ('1441904116', '蒋x', 'jiang', '1441904116');
+# INSERT INTO `student`
+# VALUES ('1441904231', '谢x', 'xie4', '1441904231');
+# INSERT INTO `student`
+# VALUES ('152210702113', '凌xx', 'ling', '152210702113');
+# INSERT INTO `student`
+# VALUES ('152210702132', '徐xx', 'xu', '152210702132');
+# INSERT INTO `student`
+# VALUES ('162210201321', '史xx', 'shi3', '162210201321');
 
 -- ----------------------------
 -- Table structure for studentclass
@@ -148,16 +149,16 @@ CREATE TABLE `studentclass`
 -- ----------------------------
 -- Records of studentclass
 -- ----------------------------
-INSERT INTO `studentclass`
-VALUES ('682', '1', '2', '1441904116', '');
-INSERT INTO `studentclass`
-VALUES ('683', '2', '2', '1441904231', '');
-INSERT INTO `studentclass`
-VALUES ('684', '3', '2', '152210702113', '');
-INSERT INTO `studentclass`
-VALUES ('685', '4', '2', '152210702132', '');
-INSERT INTO `studentclass`
-VALUES ('686', '5', '2', '162210201321', '');
+# INSERT INTO `studentclass`
+# VALUES ('682', '1', '2', '1441904116', '');
+# INSERT INTO `studentclass`
+# VALUES ('683', '2', '2', '1441904231', '');
+# INSERT INTO `studentclass`
+# VALUES ('684', '3', '2', '152210702113', '');
+# INSERT INTO `studentclass`
+# VALUES ('685', '4', '2', '152210702132', '');
+# INSERT INTO `studentclass`
+# VALUES ('686', '5', '2', '162210201321', '');
 
 -- ----------------------------
 -- Table structure for teachclass
@@ -169,7 +170,7 @@ CREATE TABLE `teachclass`
     `coursename`     varchar(100) DEFAULT NULL,
     `coursesemester` char(11)    NOT NULL,
     `credit`         tinyint(4)   DEFAULT NULL,
-    `evalmethod`     char(4)      DEFAULT NULL,
+    `evalmethod`     varchar(50)      DEFAULT NULL,
     `teacherno`      varchar(20)  DEFAULT NULL,
     `ID`             int(11)     NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (`ID`),
@@ -184,13 +185,13 @@ CREATE TABLE `teachclass`
 -- Records of teachclass
 -- ----------------------------
 INSERT INTO `teachclass`
-VALUES ('19090173a-1', 'Android application development', '2018-2019-1', '3', '考试', '1998000011', '1');
+VALUES ('SSE206', 'Computer Networking', '2022 Spring', '3', 'Exams', 'nanyh', '1');
 INSERT INTO `teachclass`
-VALUES ('19090177a-1', 'Web applications development using JSP & Servlet', '2018-2019-2', '4', '考试', '1998000011', '2');
-INSERT INTO `teachclass`
-VALUES ('19020183b-1', 'Java高级编程', '2018-2019-2', '3', '考查', '1998000011', '6');
-INSERT INTO `teachclass`
-VALUES ('19W07014b-1', '移动终端程序开发', '2018-2019-2', '3', '考查', '1998000011', '7');
+VALUES ('SSE208', 'Computer Networking Labs', '2022 Spring', '1', 'Lab reports', 'nanyh', '2');
+# INSERT INTO `teachclass`
+# VALUES ('19020183b-1', 'Java高级编程', '2018-2019-2', '3', '考查', '1998000011', '6');
+# INSERT INTO `teachclass`
+# VALUES ('19W07014b-1', '移动终端程序开发', '2018-2019-2', '3', '考查', '1998000011', '7');
 
 -- ----------------------------
 -- Table structure for teacher
@@ -210,9 +211,7 @@ CREATE TABLE `teacher`
 -- Records of teacher
 -- ----------------------------
 INSERT INTO `teacher`
-VALUES ('123456', '张三', '123', '1');
-INSERT INTO `teacher`
-VALUES ('1998000011', '夏老师', '1998000014', '0');
+VALUES ('nanyh', '南老师', 'sse206nan', '1');
 
 -- ----------------------------
 -- Table structure for timetable
@@ -233,36 +232,3 @@ CREATE TABLE `timetable`
 -- ----------------------------
 -- Records of timetable
 -- ----------------------------
-
-select job.*,
-       (
-           CASE
-               WHEN score.score is null THEN
-                   0
-               ELSE
-                   score.score
-               END
-           ) AS score,
-       (
-           CASE
-               WHEN score.submitTime is null THEN
-                   '未提交'
-               ELSE
-                   '已提交'
-               END
-           ) AS status
-from (SELECT DATE_FORMAT(b.createTime, '%Y-%m-%d') as time,
-             b.*,
-             c.coursename
-      FROM job b,
-           teachclass c
-      WHERE b.teachclassid in
-            (SELECT a.classID
-             FROM studentclass a
-             WHERE a.studentno = '21215400')
-        AND c.ID = b.teachclassid
-        AND c.ID = 14
-      ORDER BY b.ID DESC) as job
-         LEFT JOIN (SELECT jobID, score, time as submitTime from score where studentno = '21215400') as score
-                   ON score.jobID = job.ID
-

@@ -13,14 +13,14 @@
         作业管理
     </blockquote>
     <header class="larry-personal-tit">
-        ps：0分说明老师还未批阅哦，不用着急
+<!--        ps：0分说明老师还未批阅哦，不用着急-->
     </header><!-- /header -->
     <form name="myupload" id="getstudent" class="layui-form" action="addjob.html" method="get"
           style="margin-left: auto;margin-right: auto;text-align: center">
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">科目类别：</label>
-                <div class="layui-input-block">
+                <div class="layui-input-block" style="width: 300px;">
                     <select name="lesson" id="lesson" lay-filter="lessonname">
                         <option value=""></option>
                     </select>
@@ -40,11 +40,11 @@
 </div>
 
 </body>
-<script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">右侧进行筛选导出</button>
-    </div>
-</script>
+<!--<script type="text/html" id="toolbarDemo">-->
+<!--    <div class="layui-btn-container">-->
+<!--        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">右侧进行筛选导出</button>-->
+<!--    </div>-->
+<!--</script>-->
 <script type="text/html" id="barDemo">
     <!--    <a class="layui-btn layui-btn-xs" lay-event="edit">上传/更改</a>-->
     <a class="layui-btn layui-btn-xs" lay-event="edit">下载已提交</a>-->
@@ -83,11 +83,18 @@
                     {field: 'title', title: '作业名'},
                     {field: 'time', title: '发布时间'},
                     {field: 'duedate', title: '截至时间'},
-                    {field: 'type', title: '类型(1,2)'},
+                    // {field: 'type', title: '类型(1,2)'},
                     {field: 'note', title: '备注'},
-                    {field: 'score', title: '分数'},
-                    {field: 'status', title: '状态'},
-                    {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150, hide: 'true'}
+                    // {field: 'score', title: '分数'},
+                    // {field: 'status', title: '状态'},
+                    {field: 'status', title: '状态', width: 200,templet:function (d) {
+                            if(d.status==='未提交')    return '<span style="color: #c00;">'+ d.status +'</span>'
+                            else if(d.status==='按时提交')    return '<span style="color: #33ff00;">'+ d.status +'</span>'
+                            else if(d.status==='延时提交')    return '<span style="color: #ffff00;">'+ d.status +'</span>'
+                            else
+                                return '<span style="color: #000033;">'+ d.status +'</span>'
+                        }}
+                    // {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150, hide: 'true'}
                 ]]
             });
             //头工具栏事件
