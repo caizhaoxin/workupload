@@ -302,7 +302,8 @@ public class fileController {
         }
         // 检查是否为zip
         String fileName = file.getOriginalFilename();
-//        System.out.println("file:" + fileName.split("\\.")[1]);
+//        System.out.println("file:" + fileName);
+
         if (fileName == null || !fileName.endsWith(".zip")) {
             return "文件格式错误，请上传zip文件";
         }
@@ -320,7 +321,6 @@ public class fileController {
             isovertime = true;
         }
 
-
         logger.info(job.getTitle() + " " + job.getNo() + " " + job.getDuedate());
         logger.info(teachclass.getCoursename() + " " + teachclass.getTeachclassno());
 
@@ -333,7 +333,10 @@ public class fileController {
             file2.mkdirs();
         }
         logger.info(path);
-        String filename = session.getAttribute("studentid") + "_" + (String) session.getAttribute("name") + "_" + "实验" + job.getNo() + "." + file.getOriginalFilename().split("\\.")[1];
+        String []filenameArr = file.getOriginalFilename().split("\\.");
+        String filename = session.getAttribute("studentid") + "_" + (String) session.getAttribute("name") + "_"
+                + "实验" + job.getNo() + "." +
+                filenameArr[filenameArr.length-1];
         File file3 = new File(file2, filename);//创建文件
         OutputStream out = new FileOutputStream(file3);
         BufferedOutputStream buf = new BufferedOutputStream(out);

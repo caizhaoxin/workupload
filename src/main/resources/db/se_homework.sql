@@ -161,7 +161,7 @@ CREATE TABLE `teachclass`
     `coursename`     varchar(100) DEFAULT NULL,
     `coursesemester` char(11)    NOT NULL,
     `credit`         tinyint(4)   DEFAULT NULL,
-    `evalmethod`      varchar(50)      DEFAULT NULL,
+    `evalmethod`     varchar(50)  DEFAULT NULL,
     `teacherno`      varchar(20)  DEFAULT NULL,
     `ID`             int(11)     NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (`ID`),
@@ -225,3 +225,71 @@ CREATE TABLE `timetable`
 -- ----------------------------
 -- Records of timetable
 -- ----------------------------
+
+
+select e.name,
+       d.*,
+       (CASE
+            WHEN d.time is null THEN
+                '未提交'
+            WHEN DATE_FORMAT(d.time, '%Y-%m-%d') <= d.duedate THEN
+                '按时提交'
+            WHEN DATE_FORMAT(d.time, '%Y-%m-%d') > d.duedate THEN
+                '延时提交'
+            ELSE
+                '未知状态'
+           END
+           ) AS status
+from (SELECT a.`no`,
+             a.classID,
+             a.studentno,
+             b.ID                                        scoreid,
+             b.score,
+             DATE_FORMAT(b.time, '%Y-%m-%d %h:%m:%s') as time,
+             b.note,
+             tmp_job.duedate
+      from studentclass a
+               LEFT JOIN score b
+                         on a.studentno = b.studentno
+                             and b.jobID = '14'
+               LEFT JOIN job tmp_job
+                         on tmp_job.ID = '14'
+      where a.classID = (SELECT teachclassid FROM job WHERE ID = '14')
+      ORDER BY a.`no` asc) d,
+     student e
+WHERE d.studentno = e.studentno
+order by d.no asc
+
+
+SELECT a.`no`,
+       a.classID,
+       a.studentno,
+       b.ID                                        scoreid,
+       b.score,
+       DATE_FORMAT(b.time, '%Y-%m-%d %h:%m:%s') as time,
+       b.note,
+       tmp_job.duedate
+from studentclass a
+         LEFT JOIN score b
+                   on a.studentno = b.studentno
+                       and b.jobID = '14'
+         LEFT JOIN job tmp_job
+                   on tmp_job.ID = '14'
+where a.classID = (SELECT teachclassid FROM job WHERE ID = '14')
+ORDER BY a.`no` asc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -82,18 +82,21 @@
                     {field: 'coursename', title: '课程名', hide: 'true'},
                     {field: 'title', title: '作业名'},
                     {field: 'time', title: '发布时间'},
+                    {field: 'submitTime', title: '提交时间'},
                     {field: 'duedate', title: '截至时间'},
                     // {field: 'type', title: '类型(1,2)'},
                     {field: 'note', title: '备注'},
                     // {field: 'score', title: '分数'},
                     // {field: 'status', title: '状态'},
-                    {field: 'status', title: '状态', width: 200,templet:function (d) {
-                            if(d.status==='未提交')    return '<span style="color: #c00;">'+ d.status +'</span>'
-                            else if(d.status==='按时提交')    return '<span style="color: #33ff00;">'+ d.status +'</span>'
-                            else if(d.status==='延时提交')    return '<span style="color: #ffff00;">'+ d.status +'</span>'
+                    {
+                        field: 'status', title: '状态', width: 200, templet: function (d) {
+                            if (d.status === '未提交') return '<span style="color: #F41010;">' + d.status + '</span>'
+                            else if (d.status === '延时提交') return '<span style="color: #FFC300;">' + d.status + '</span>'
+                            else if (d.status === '按时提交') return '<span style="color: #2BB101;">' + d.status + '</span>'
                             else
-                                return '<span style="color: #000033;">'+ d.status +'</span>'
-                        }}
+                                return '<span style="color: #000033;">' + d.status + '</span>'
+                        }
+                    }
                     // {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150, hide: 'true'}
                 ]]
             });

@@ -54,6 +54,14 @@ public interface jobMapper {
             "       (\n" +
             "           CASE\n" +
             "               WHEN score.submitTime is null THEN\n" +
+            "                   '-'\n" +
+            "               ELSE\n" +
+            "                   score.submitTime \n" +
+            "               END\n" +
+            "           ) AS submitTime,\n" +
+            "       (\n" +
+            "           CASE\n" +
+            "               WHEN score.submitTime is null THEN\n" +
             "                   '未提交'\n" +
             "               WHEN score.submitTime<=job.duedate THEN\n" +
             "                   '按时提交'\n" +
@@ -75,7 +83,7 @@ public interface jobMapper {
             "        AND c.ID = b.teachclassid\n" +
             "        AND c.ID = #{classid}\n" +
             "      ORDER BY b.ID DESC) as job\n" +
-            "         LEFT JOIN (SELECT jobID, score, time as submitTime from score where studentno = #{studentid}) as score\n" +
+            "         LEFT JOIN (SELECT jobID, score, DATE_FORMAT(time, '%Y-%m-%d') as submitTime from score where studentno = #{studentid}) as score\n" +
             "                   ON score.jobID = job.ID")
     List<Map<String, String>> gettaskdetailbyclass(@Param("classid") Integer classid, @Param("studentid") String studentid);
 

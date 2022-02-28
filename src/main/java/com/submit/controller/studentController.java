@@ -108,7 +108,7 @@ public class studentController {
     @GetMapping("gettaskdetailbyclass")
     public Map<String, Object> gettaskdetail(Integer classid, HttpServletRequest request) {
         String studentid = (String) request.getSession().getAttribute("studentid");
-        System.out.println("String studentid = (String) request.getSession().getAttribute(\"studentid\");:  "+studentid);
+//        System.out.println("String studentid = (String) request.getSession().getAttribute(\"studentid\");:  "+studentid);
         List<Map<String, String>> list = null;
         try {
             list = studentService.gettaskdetailbyclass(classid, studentid);

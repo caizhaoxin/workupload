@@ -40,15 +40,67 @@ public interface scoreMapper {
     @Select("select * from score where jobID=#{jobID} and studentno=#{studentid}")
     score uniqueindex(@Param("jobID") Integer id,@Param("studentid") String studentid);
 
-    @Select("select e.name,d.* from(SELECT a.`no`,a.classID,a.studentno,b.ID scoreid,b.score," +
-            "DATE_FORMAT(b.time,'%Y-%m-%d %h:%m:%s') as time,b.note " +
-            "from studentclass a " +
-            "LEFT   JOIN  score b " +
-            "on a.studentno=b.studentno " +
-            "and b.jobID=#{jobid} " +
-            "where a.classID =(SELECT teachclassid FROM job  WHERE ID=#{jobid}) " +
-            "ORDER BY a.`no` asc)d,student e " +
-            "WHERE d.studentno=e.studentno " +
+//    @Select("select e.name,d.* from(SELECT a.`no`,a.classID,a.studentno,b.ID scoreid,b.score," +
+//            "DATE_FORMAT(b.time,'%Y-%m-%d %h:%m:%s') as time,b.note " +
+//            "from studentclass a " +
+//            "LEFT   JOIN  score b " +
+//            "on a.studentno=b.studentno " +
+//            "and b.jobID=#{jobid} " +
+//            "where a.classID =(SELECT teachclassid FROM job  WHERE ID=#{jobid}) " +
+//            "ORDER BY a.`no` asc)d,student e " +
+//            "WHERE d.studentno=e.studentno " +
+//            "order by d.no asc")
+
+    @Select("select e.name,\n" +
+            "       d.*,\n" +
+            "       (CASE\n" +
+            "            WHEN d.time is null THEN\n" +
+            "                '未提交'\n" +
+            "            WHEN DATE_FORMAT(d.time, '%Y-%m-%d') <= d.duedate THEN\n" +
+            "                '按时提交'\n" +
+            "            WHEN DATE_FORMAT(d.time, '%Y-%m-%d') > d.duedate THEN\n" +
+            "                '延时提交'\n" +
+            "            ELSE\n" +
+            "                '未知状态'\n" +
+            "           END\n" +
+            "           ) AS status\n" +
+            "from (SELECT a.`no`,\n" +
+            "             a.classID,\n" +
+            "             a.studentno,\n" +
+            "             b.ID                                        scoreid,\n" +
+            "             b.score,\n" +
+            "             DATE_FORMAT(b.time, '%Y-%m-%d %h:%m:%s') as time,\n" +
+            "             b.note,\n" +
+            "             tmp_job.duedate\n" +
+            "      from studentclass a\n" +
+            "               LEFT JOIN score b\n" +
+            "                         on a.studentno = b.studentno\n" +
+            "                             and b.jobID = #{jobid}\n" +
+            "               LEFT JOIN job tmp_job\n" +
+            "                         on tmp_job.ID = #{jobid}\n" +
+            "      where a.classID = (SELECT teachclassid FROM job WHERE ID = #{jobid})\n" +
+            "      ORDER BY a.`no` asc) d,\n" +
+            "     student e\n" +
+            "WHERE d.studentno = e.studentno\n" +
             "order by d.no asc")
     List<Map> getscorebyjobid(int jobid);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
