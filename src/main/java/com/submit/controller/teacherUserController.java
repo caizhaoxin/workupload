@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("teacher")
@@ -165,9 +167,20 @@ public class teacherUserController {
         return map;
     }
 
+
+    private boolean isNumericzidai(String str) {
+        try {
+            int num = Integer.parseInt(str);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
     @PostMapping("updatescorebyscoreid")
     public String updatescorebyscoreid(String scoreid, String score, String note) {
-        if (scoreid == null || scoreid == "") return "修改失败，作业未提交";
+        if (scoreid == null || scoreid.equals("")) return "修改失败，作业未提交";
+        if (score != null && !score.equals("") && !isNumericzidai(score)) return "评分只能是正整数或为空";
         try {
             teacherService.updatescorebyscoreid(scoreid, score, note);
             return "修改成功";
@@ -290,7 +303,7 @@ public class teacherUserController {
                 e.printStackTrace();
                 return "异常错误";
             }
-        } else if(type.equals("all")){
+        } else if (type.equals("all")) {
             try {
                 return teacherService.lessonaddallstudent(lesson);
             } catch (Exception e) {

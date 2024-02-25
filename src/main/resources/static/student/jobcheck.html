@@ -13,7 +13,7 @@
         作业管理
     </blockquote>
     <header class="larry-personal-tit">
-<!--        ps：0分说明老师还未批阅哦，不用着急-->
+        ps：0分说明老师还未批阅哦，不用着急
     </header><!-- /header -->
     <form name="myupload" id="getstudent" class="layui-form" action="addjob.html" method="get"
           style="margin-left: auto;margin-right: auto;text-align: center">
@@ -87,14 +87,31 @@
                     // {field: 'type', title: '类型(1,2)'},
                     {field: 'note', title: '备注'},
                     // {field: 'score', title: '分数'},
+                    {
+                        field: 'score', title: '分数', width: 200, templet: function (d) {
+                            var default_str = '无'
+                            if (d.title === 'Midterm-exam' || d.title === 'Final-exam') {
+                                if (80 <= d.score) return '<span style="color: #2BB101;">' + d.score + '</span>'
+                                else if (60 <= d.score && d.score < 80) return '<span style="color: #FFC300;">' + d.score + '</span>'
+                                else return '<span style="color: #ff0033;">' + d.score + '</span>'
+                            } else {
+                                return '<span style="color: #000000;">' + default_str + '</span>'
+                            }
+                        }
+                    },
                     // {field: 'status', title: '状态'},
                     {
                         field: 'status', title: '状态', width: 200, templet: function (d) {
-                            if (d.status === '未提交') return '<span style="color: #F41010;">' + d.status + '</span>'
-                            else if (d.status === '延时提交') return '<span style="color: #FFC300;">' + d.status + '</span>'
-                            else if (d.status === '按时提交') return '<span style="color: #2BB101;">' + d.status + '</span>'
-                            else
-                                return '<span style="color: #000033;">' + d.status + '</span>'
+                            if (d.title === 'Midterm-exam' || d.title === 'Final-exam') {
+                                var str = '不用提交'
+                                return '<span style="color: #000000;">' + str + '</span>'
+                            } else {
+                                if (d.status === '未提交') return '<span style="color: #F41010;">' + d.status + '</span>'
+                                else if (d.status === '延时提交') return '<span style="color: #FFC300;">' + d.status + '</span>'
+                                else if (d.status === '按时提交') return '<span style="color: #2BB101;">' + d.status + '</span>'
+                                else
+                                    return '<span style="color: #000033;">' + d.status + '</span>'
+                            }
                         }
                     }
                     // {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150, hide: 'true'}

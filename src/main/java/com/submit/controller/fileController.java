@@ -314,7 +314,11 @@ public class fileController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         //判断是否超时
-        Date endday = sdf.parse(job.getDuedate());
+        // 获取截至日期的下一天的逻辑
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(sdf.parse(job.getDuedate()));
+        calendar.add(Calendar.DATE, 1);
+        Date endday = calendar.getTime();
         Date now = new Date();
         if (endday.compareTo(now) < 0)//超时
         {
@@ -353,7 +357,8 @@ public class fileController {
             score1.setTime(new Date());
             scoreMapper.insert(score1);
         } else {
-            score.setTime(new Date());
+            System.out.println("now: "+now);
+            score.setTime(now);
             scoreMapper.updateByPrimaryKeySelective(score);
         }
 

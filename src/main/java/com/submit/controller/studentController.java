@@ -79,6 +79,21 @@ public class studentController {
     }
 
     @ResponseBody
+    @GetMapping("getstudentexamscore")
+    public List<teachclass> getstudentexamscore(HttpServletRequest request)
+    {
+        try {
+            String studentid = (String) request.getSession().getAttribute("studentid");
+            List<teachclass> list = studentService.getstudentclassbystudentno(studentid);
+            return list;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @ResponseBody
     @PostMapping("addstuclaid")
     public String addstuclaid(int stuclaid, HttpServletRequest request) {
         try {

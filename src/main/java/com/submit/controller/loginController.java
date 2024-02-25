@@ -21,12 +21,14 @@ public class loginController {
 
     @Autowired(required = false)
     studentMapper studentMapepr;
+
     @ResponseBody
     @GetMapping("test")
     public List<student> test()
     {
         return studentMapepr.getall();
     }
+
     @PostMapping("studentlogin")
     public String studentlogin(String username, String password, HttpServletRequest request) {
         Subject subject = SecurityUtils.getSubject();
@@ -54,6 +56,11 @@ public class loginController {
             e.printStackTrace();
             return "redirect:login.html";
         }
+    }
+
+    @PostMapping("/")
+    public String homepage(){
+        return "redirect:login.html";
     }
 
     @PostMapping("teacherlogin")

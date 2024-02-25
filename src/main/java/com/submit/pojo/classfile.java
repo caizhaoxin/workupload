@@ -11,7 +11,7 @@ public class classfile {
 
     private String filename;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date uploadtime;
 
     private Integer downloadtime;

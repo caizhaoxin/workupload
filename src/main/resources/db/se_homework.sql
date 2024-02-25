@@ -202,7 +202,7 @@ CREATE TABLE `teacher`
 -- Records of teacher
 -- ----------------------------
 INSERT INTO `teacher`
-VALUES ('nanyh', '南老师', '123456', '1');
+VALUES ('nanyh', '南老师', 'sse206nan', '1');
 # INSERT INTO `teacher`
 # VALUES ('1998000011', '夏老师', '1998000014', '0');
 
@@ -245,38 +245,21 @@ from (SELECT a.`no`,
              a.studentno,
              b.ID                                        scoreid,
              b.score,
-             DATE_FORMAT(b.time, '%Y-%m-%d %h:%m:%s') as time,
+#              DATE_FORMAT(b.time, '%Y-%m-%d %h:%m:%s') as time,
+             b.time  as time,
              b.note,
              tmp_job.duedate
       from studentclass a
                LEFT JOIN score b
                          on a.studentno = b.studentno
-                             and b.jobID = '14'
+                             and b.jobID = '15'
                LEFT JOIN job tmp_job
-                         on tmp_job.ID = '14'
-      where a.classID = (SELECT teachclassid FROM job WHERE ID = '14')
+                         on tmp_job.ID = '15'
+      where a.classID = (SELECT teachclassid FROM job WHERE ID = '15')
       ORDER BY a.`no` asc) d,
      student e
 WHERE d.studentno = e.studentno
 order by d.no asc
-
-
-SELECT a.`no`,
-       a.classID,
-       a.studentno,
-       b.ID                                        scoreid,
-       b.score,
-       DATE_FORMAT(b.time, '%Y-%m-%d %h:%m:%s') as time,
-       b.note,
-       tmp_job.duedate
-from studentclass a
-         LEFT JOIN score b
-                   on a.studentno = b.studentno
-                       and b.jobID = '14'
-         LEFT JOIN job tmp_job
-                   on tmp_job.ID = '14'
-where a.classID = (SELECT teachclassid FROM job WHERE ID = '14')
-ORDER BY a.`no` asc
 
 
 

@@ -12,7 +12,7 @@ import java.util.Map;
 @Mapper
 public interface scoreMapper {
 
-    @Select("SELECT d.studentno,d.score,d.`name` ,DATE_FORMAT(d.time,'%Y-%m-%d %h:%m:%s') as time,f.coursename,e.title FROM teachclass f, " +
+    @Select("SELECT d.studentno,d.score,d.`name` ,DATE_FORMAT(d.time,'%Y-%m-%d %H:%i:%s') as time,f.coursename,e.title FROM teachclass f, " +
             "(SELECT a.studentno,a.jobID,a.time,IFNULL(a.score,0) as score,b.`name` FROM score a " +
             "LEFT JOIN student b " +
             "on a.studentno=b.studentno " +
@@ -69,7 +69,8 @@ public interface scoreMapper {
             "             a.studentno,\n" +
             "             b.ID                                        scoreid,\n" +
             "             b.score,\n" +
-            "             DATE_FORMAT(b.time, '%Y-%m-%d %h:%m:%s') as time,\n" +
+            "             DATE_FORMAT(b.time, '%Y-%m-%d %H:%i:%s') as time,\n" +
+//            "             b.time as time,\n" +
             "             b.note,\n" +
             "             tmp_job.duedate\n" +
             "      from studentclass a\n" +

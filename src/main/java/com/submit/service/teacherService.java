@@ -154,12 +154,14 @@ public class teacherService {
         logger.info(scoreid + " " + score + " " + note);
         if (scoreid == null || scoreid == "") return;
         score score1 = scoreMapper.selectByPrimaryKey(Long.parseLong(scoreid));
-        if (score != null && !"".equals(score)) {
-            score1.setScore(Integer.parseInt(score));
+        if (score != null) {
+            if(score.equals(""))    score1.setScore(null);
+            else score1.setScore(Integer.parseInt(score));
         }
-        if (note != null && !"".equals(note)) {
+        if (note != null) {
             score1.setNote(note);
         }
+        System.out.println("score1.score："+score1.getScore());
         scoreMapper.updateByPrimaryKeySelective(score1);
     }
 

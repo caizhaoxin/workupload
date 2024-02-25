@@ -59,14 +59,18 @@ public class teacherJobController {
 
     @ResponseBody
     @PostMapping("addjob")
-    public String addjob(String lesson, String no, String title, String duedate, int type, String note) {
+    public String addjob(String lesson, String no, String title, String duedate, String note) {
         try {
+            if(lesson==null || lesson.equals(""))  return "课程不能为空";
+            if(no==null || no.equals(""))  return "序号不能为空";
+            if(title==null || title.equals(""))  return "作业名不能为空";
+            if(duedate==null || duedate.equals(""))  return "截止日期不能为空";
             job job = new job();
             job.setTeachclassid(Integer.parseInt(lesson));
             job.setNo(Integer.parseInt(no));
             job.setTitle(title);
             job.setDuedate(duedate);
-            job.setType(type);
+            job.setType(1);
             job.setNote(note);
             job.setCreatetime(new Date());
             teacherService.addjob(job);
@@ -76,7 +80,6 @@ public class teacherJobController {
             return "添加失败";
         }
     }
-
     @ResponseBody
     @PostMapping("updatejobbyteachclaid")
     public String updatejobbyteachclaid(String ID, String no, String title, String duedate, String type, String note) {

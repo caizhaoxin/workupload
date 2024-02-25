@@ -184,10 +184,10 @@ CREATE TABLE `teachclass`
 -- ----------------------------
 -- Records of teachclass
 -- ----------------------------
-INSERT INTO `teachclass`
-VALUES ('SSE206', 'Computer Networking', '2022 Spring', '3', 'Exams', 'nanyh', '1');
-INSERT INTO `teachclass`
-VALUES ('SSE208', 'Computer Networking Labs', '2022 Spring', '1', 'Lab reports', 'nanyh', '2');
+# INSERT INTO `teachclass`
+# VALUES ('SSE206', 'Computer Networking', '2022 Spring', '3', 'Exams', 'nanyh', '1');
+# INSERT INTO `teachclass`
+# VALUES ('SSE208', 'Computer Networking Labs', '2022 Spring', '1', 'Lab reports', 'nanyh', '2');
 # INSERT INTO `teachclass`
 # VALUES ('19020183b-1', 'Java高级编程', '2018-2019-2', '3', '考查', '1998000011', '6');
 # INSERT INTO `teachclass`
